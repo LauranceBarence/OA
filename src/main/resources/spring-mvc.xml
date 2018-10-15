@@ -63,7 +63,7 @@
     <bean id="freemarkerConfig"
         class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <!-- 模板路径 -->
-        <property name="templateLoaderPath" value="/WEB-INF/view/freemarker" />
+        <property name="templateLoaderPath" value="/WEB-INF/view/" />
         <property name="freemarkerSettings">
             <props>
                 <!-- 刷新模板的周期，单位为秒 -->
