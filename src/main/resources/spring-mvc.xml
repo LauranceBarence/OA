@@ -32,6 +32,15 @@
         class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
     </bean>
 	
+	<!-- 视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/view/jsp"></property>
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp"></property>
+		<property name="order" value="2" />
+	</bean>
 
     <!-- FreeMarker视图解析器与属性配置 -->
     <bean id="viewResolver"
