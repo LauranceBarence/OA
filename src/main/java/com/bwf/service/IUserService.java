@@ -1,5 +1,9 @@
 package com.bwf.service;
 
-public interface IUserService {
+import com.bwf.entity.User;
 
+public interface IUserService {
+	
+	User login(User user);
+	
 }
