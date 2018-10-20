@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>massager</title>
+<link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wow.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/Calendar3.js"></script>
+</head>
+<body>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<form action="" method="POST" role="form" name="form1">
+				<div class="row row-where ">
+
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+						<input type="text" name="" class="form-control" placeholder="文本搜索" />
+					</div>
+
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<button type="submit" class="btn btn-darkgreen form-control">
+							搜索</button>
+					</div>
+					<div class="col-lg-5 col-md-3 col-sm-4 col-xs-5"></div>
+					
+					<div class="col-lg-3 col-md-4 col-sm-3 col-xs-2">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default"><input type="radio"
+								name="" value="" />按日期排序</label>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+		<div class="panel-body">
+
+			<form action="" method="POST" role="form">
+				<table
+					class="table table-bordered table-condensed table-hover table-responsive cbx-group"
+					style="margin-top: 20px;">
+					<thead>
+						<th class="td-checkbox" width="50px"><input type="checkbox"
+							class="cbx-all" /></th>
+						
+						<th>标题</th>
+						<th width="120px" class="hidden-xs">发件人</th>
+						<th width="120px" class="hidden-xs">收件人</th>
+						<th width="120px" class="hidden-xs">删除日期</th>
+						<th>操作选项</th>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td width="50px" align="center" class="td-checkbox"><input
+								type="checkbox" name="id" /></td>
+							<td class="text-center">表格数据</td>
+						
+							<td width="120px" class="hidden-xs text-center">发件人</td>
+							<td width="120px" class="hidden-xs text-center">收件人</td>
+							<td width="120px" class="hidden-xs text-center">表格数据</td>
+							<td width="120px">
+								<span class="btn-group btn-group-xs text-center">
+									<button type="button" class="btn btn-default">查看</button>
+									<button type="button" class="btn btn-default">回复</button>
+									<button type="button" class="btn btn-danger">删除</button>
+								</span>
+							</td>
+						</tr>
+						
+					</tbody>
+					<tfoot>
+
+					</tfoot>
+				</table>
+			</form>
+
+			<div class="row">
+				<div class="col-lg-2 col-md-1 col-sm-1 col-xs-2"></div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-5">
+					<div class="btn-group btn-group-sm">
+						<button type="button" class="btn btn-darkgreen">
+							<span class="hidden-xs hidden-sm"> 首 页 </span>
+							<span class="hidden-lg hidden-md"> |&lt; </span>
+						</button>
+						<button type="button" class="btn btn-darkgreen">
+							<span class="hidden-xs hidden-sm"> 上一页 </span> 
+							<span class="hidden-lg hidden-md"> &lt;&lt; </span>
+						</button>
+						
+						<button type="button" class="btn btn-default ">
+							1
+						</button>
+						
+						<button type="button" class="btn btn-darkgreen">
+							<span class="hidden-xs hidden-sm"> 下一页 </span> 
+							<span class="hidden-lg hidden-md"> &gt;&gt; </span>
+						</button>
+						<button type="button" class="btn btn-darkgreen">
+							<span class="hidden-xs hidden-sm"> 末 页 </span>
+							<span class="hidden-lg hidden-md"> &gt;| </span>
+						</button>
+					</div>
+
+				</div>
+				<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5">
+					<div class="input-group input-group-sm">
+						<input type="text" class="form-control" placeholder="7" /> 
+						<span class="input-group-addon"> / 60 页 </span>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-darkgreen">Go</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+
+	<div style="height: 80px;"></div>
+</body>
+</html>
+

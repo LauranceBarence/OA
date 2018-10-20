@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bwf.dao.MessageMapper">
+	<resultMap type="com.bwf.entity.Message" id="message">
+		<id column="message_id" property="messageId" />
+		<result column="sender_id" property="senderId" />
+		<result column="reciver_id" property="reciverId" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="status" property="status" />
+		<result column="accessory" property="accessory" />
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.Message" id="messageWithUser">
+		<id column="message_id" property="messageId" />
+		<result column="sender_id" property="senderId" />
+		<result column="reciver_id" property="reciverId" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="status" property="status" />
+		<result column="accessory" property="accessory" />
+		<collection property="users" javaType="com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.nuser">
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 发送信息 -->
+	<insert id="addemail" parameterType="com.bwf.entity.Message" useGeneratedKeys="true" keyProperty="messageId">
+		INSERT INTO `message` VALUES (null,#{senderId},#{reciverId},#{messageTitle},#{messageContent},2,#{messageTime},#{accessory})
+	</insert>
+
+	
+	<!-- 查询接收的信息 
+	<select id="getMessageByUserId" parameterType="int" resultMap="message">
+		select * from `message` where reciver_id = #{id} and status !=3
+	</select>
+	-->
+	<!-- 读取发送的信息 -->
+	<select id="sentMessageByUserId" parameterType="int" resultMap="messageWithUser">
+	select * from `message` left outer join `user` 
+								on message.sender_id = user.user_id 	
+								where message.sender_id = #{senderId} and message.status !=3
+	
+	</select>
+	
+</mapper>

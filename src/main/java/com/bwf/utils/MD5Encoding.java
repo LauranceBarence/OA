@@ -10,12 +10,12 @@ import java.security.NoSuchAlgorithmException;
 public class MD5Encoding {
 	static MessageDigest md5;
 	static{
-	 try {
-		md5 = MessageDigest.getInstance("MD5");
-	} catch (NoSuchAlgorithmException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} 
+		 try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			
+			e.printStackTrace();
+		} 
 	}
 	
 	public static String encodingMd5(String str){
