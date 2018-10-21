@@ -6,11 +6,14 @@ public class User {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", nickname=" + nickname
 				+ ", avater=" + avater + "]";
 	}
-private Integer userId;
+  private Integer userId;
   private String username;
   private String password;
   private String nickname;
   private String avater;
+  
+  
+  
   
 public Integer getUserId() {
 	return userId;

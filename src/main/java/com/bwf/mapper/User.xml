@@ -12,6 +12,12 @@
 		<result column="avater" property="avater" />
 	</resultMap>
 	
+	<resultMap type="com.bwf.entity.User" id="simplenessuser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+	</resultMap>
+	
 	<select id="getUserBy" parameterType="com.bwf.entity.User" resultMap="nuser">
 		select * from `user` where username = #{username} and password = #{password}
 	</select>

@@ -57,14 +57,14 @@
 						<th>操作选项</th>
 					</thead>
 					<tbody>
-					
+					<#list recivemessage as rm>
 						<tr>
 							<td width="50px" align="center" class="td-checkbox"><input
 								type="checkbox" name="id" /></td>
-							<td class="text-center">表格数据</td>
+							<td class="text-center">${rm.messageTitle}</td>
 						
-							<td width="120px" class="hidden-xs text-center">收件人</td>
-							<td width="120px" class="hidden-xs text-center">表格数据</td>
+							<td width="120px" class="hidden-xs text-center">${rm.senderId}</td>
+							<td width="120px" class="hidden-xs text-center">${rm.messageTime}</td>
 							<td width="120px">
 								<span class="btn-group btn-group-xs text-center">
 									<button type="button" class="btn btn-default">查看</button>
@@ -73,7 +73,7 @@
 								</span>
 							</td>
 						</tr>
-						
+					</#list>
 					</tbody>
 					<tfoot>
 

@@ -48,22 +48,28 @@ public class MessageController {
 	}
 	//读取接收的信息
 	@RequestMapping("email")
-	public String email(HttpSession session){
-//		User user = (User)session.getAttribute("user");
+	public String email(HttpSession session,ModelMap modelMap){
+		User user = (User)session.getAttribute("user");
 		
-//		messageService.getMessageByUserId(user.getUserId());
-		
+		modelMap.addAttribute("recivemessage",messageService.getMessageByUserId(user.getUserId()));
 		return "email/emailtable";
 	}
+	
 	//读取发送的信息
 	@RequestMapping("sentemail")
 	public String sentemail(HttpSession session,ModelMap modelMap){
 		User user =(User)session.getAttribute("user");
 		List<Message> messages = messageService.sentMessageByUserId(user.getUserId());
-		for(int i=0; messages.size()>i;i++){
-			System.out.println(messages.get(i));
-		}
-//		modelMap.addAttribute("messages",messages);
+		
+//		Integer ids[]=new Integer[messages.size()];
+//		for(int i = 0 ; messages.size()>i;i++){
+//			ids[i]=messages.get(i).getMessageId();	
+//		}
+//		List<User> recivers = messageService.getReciversByMessageId(ids);
+		
+		modelMap.addAttribute("messages",messages);
+//		modelMap.addAttribute("recivers", recivers);
+		
 		return "email/sentemail";
 	}
 	

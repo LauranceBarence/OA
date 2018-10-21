@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bwf.dao.MessageMapper;
 import com.bwf.entity.Message;
+import com.bwf.entity.User;
 import com.bwf.service.IMessageService;
 
 @Service
@@ -16,12 +17,13 @@ public class MessageServiceImpl implements IMessageService {
 	@Autowired
 	MessageMapper messageMapper;
 	
+	//接收
 	@Override
 	public List<Message> getMessageByUserId(Integer userId) {
 			
-		return  null;
+		return  messageMapper.getReciveMessage(userId);
 	}
-
+	//发送
 	@Override
 	@Transactional
 	public void addemail(Message message) {
@@ -36,6 +38,12 @@ public class MessageServiceImpl implements IMessageService {
 		List<Message> messages=messageMapper.sentMessageByUserId(userId);
 		
 		return messages;
+	}
+	//接收人的信息
+	@Override
+	public List<User> getReciversByMessageId(Integer[] messages) {
+		
+		return messageMapper.getMessageBySendIdWithRecivers(messages);
 	}
 
 }

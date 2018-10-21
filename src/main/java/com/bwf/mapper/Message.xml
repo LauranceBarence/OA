@@ -23,7 +23,7 @@
 		<result column="message_time" property="messageTime" />
 		<result column="status" property="status" />
 		<result column="accessory" property="accessory" />
-		<collection property="users" javaType="com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.nuser">
+		<collection property="users" ofType="com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.nuser">
 		</collection>
 	</resultMap>
 	
@@ -34,17 +34,32 @@
 	</insert>
 
 	
-	<!-- 查询接收的信息 
-	<select id="getMessageByUserId" parameterType="int" resultMap="message">
-		select * from `message` where reciver_id = #{id} and status !=3
+
+	<!-- 读取发送的信息 -->
+	<select id="sentMessageByUserId" parameterType="int" resultMap="message">
+	select * from `message` as m where m.sender_id = #{senderId} and m.status !=3
+	</select>
+	<!-- 查询接收者的用户信息 
+	<select id="getMessageBySendIdWithRecivers" parameterType="com.bwf.entity.Message" resultMap="com.bwf.dao.UserMapper.simplenessuser">
+	 SELECT * FROM user as u  where user_id in (
+	  SELECT substring_index(substring_index(m.reciver_id,',', b.help_topic_id + 1), ',', -1) 
+	   FROM message as m  join help_topic b 
+		ON b.help_topic_id &lt; (LENGTH(m.reciver_id) - LENGTH(REPLACE(m.reciver_id, ',', '')) + 1)
+	 WHERE message_id in
+	  <foreach collection="array" item="int" index="index" open="(" close=")" separator=",">
+　　　　　　 #{message}
+　　　　</foreach>
+	  )
 	</select>
 	-->
-	<!-- 读取发送的信息 -->
-	<select id="sentMessageByUserId" parameterType="int" resultMap="messageWithUser">
-	select * from `message` left outer join `user` 
-								on message.sender_id = user.user_id 	
-								where message.sender_id = #{senderId} and message.status !=3
-	
+
+	<!-- 接收 -->
+	<select id="getReciveMessage"  parameterType="int" resultMap="message">
+		SELECT * from message where reciver_id LIKE CONCAT(CONCAT('%',#{address},'%'))
 	</select>
+	<!-- 删除 -->
+	
+	
+	<!-- 彻底删除 -->
 	
 </mapper>
