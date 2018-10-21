@@ -1,1 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bwf.dao.UserMapper">
+	
+	<resultMap type="com.bwf.entity.User" id="nuser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="avater" property="avater" />
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.User" id="simplenessuser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+	</resultMap>
+	
+	<select id="getUserBy" parameterType="com.bwf.entity.User" resultMap="nuser">
+		select * from `user` where username = #{username} and password = #{password}
+	</select>
+	
+	<select id="getAllUsers" resultMap="nuser">
+		select * from `user` where user_id !=1
+	</select>
+	
+</mapper>

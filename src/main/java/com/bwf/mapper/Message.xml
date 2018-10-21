@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bwf.dao.MessageMapper">
+	<resultMap type="com.bwf.entity.Message" id="message">
+		<id column="message_id" property="messageId" />
+		<result column="sender_id" property="senderId" />
+		<result column="reciver_id" property="reciverId" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="status" property="status" />
+		<result column="accessory" property="accessory" />
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.Message" id="messageWithUser">
+		<id column="message_id" property="messageId" />
+		<result column="sender_id" property="senderId" />
+		<result column="reciver_id" property="reciverId" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="status" property="status" />
+		<result column="accessory" property="accessory" />
+		<collection property="users" ofType="com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.nuser">
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 发送信息 -->
+	<insert id="addemail" parameterType="com.bwf.entity.Message" useGeneratedKeys="true" keyProperty="messageId">
+		INSERT INTO `message` VALUES (null,#{senderId},#{reciverId},#{messageTitle},#{messageContent},2,#{messageTime},#{accessory})
+	</insert>
+
+	
+
+	<!-- 读取发送的信息 -->
+	<select id="sentMessageByUserId" parameterType="int" resultMap="message">
+	select * from `message` as m where m.sender_id = #{senderId} and m.status !=3
+	</select>
+	<!-- 查询接收者的用户信息 
+	<select id="getMessageBySendIdWithRecivers" parameterType="com.bwf.entity.Message" resultMap="com.bwf.dao.UserMapper.simplenessuser">
+	 SELECT * FROM user as u  where user_id in (
+	  SELECT substring_index(substring_index(m.reciver_id,',', b.help_topic_id + 1), ',', -1) 
+	   FROM message as m  join help_topic b 
+		ON b.help_topic_id &lt; (LENGTH(m.reciver_id) - LENGTH(REPLACE(m.reciver_id, ',', '')) + 1)
+	 WHERE message_id in
+	  <foreach collection="array" item="int" index="index" open="(" close=")" separator=",">
+　　　　　　 #{message}
+　　　　</foreach>
+	  )
+	</select>
+	-->
+
+	<!-- 接收 -->
+	<select id="getReciveMessage"  parameterType="int" resultMap="message">
+		SELECT * from message where reciver_id LIKE CONCAT(CONCAT('%',#{address},'%'))
+	</select>
+	<!-- 删除 -->
+	
+	
+	<!-- 彻底删除 -->
+	
+</mapper>

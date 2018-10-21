@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>BWFUIFramework</title>
+		<link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
+		<script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="${rc.contextPath}/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="${rc.contextPath}/js/wow.js" ></script>
+		<link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
+		<script type="text/javascript" src="${rc.contextPath}/js/global.js" ></script>
+		<link rel="stylesheet" href="${rc.contextPath}/css/select2.min.css" />
+		<script type="text/javascript" src="${rc.contextPath}/js/select2.min.js"></script>
+	 
+		<script type="text/javascript">
+			$(function(){
+				$(document).ready(function() {
+				    $('#selectl').select2();	
+				});
+				$('#selectl').change(function() {
+					$('#value').val($('#selectl').val())
+				});
+				
+				
+			});
+		
+		</script>
+	</head>
+	<body>
+		
+			<div class="panel panel-default">
+				<div class="panel-heading">
+				
+				</div>
+				<div class="panel-body">
+					<form action="sendemail" method="POST" role="form">
+						
+						发件人：<input type="text" class="form-control"  readonly="readonly" value="${user.nickname}(${user.userId})"/>
+							<input type="text" style="display:none" name="senderId" class="form-control"  readonly="readonly" value="${user.userId}"/>
+			
+						<br>
+						收件人：<select id="selectl" class="form-control" multiple="multiple"  >
+						 		<#list allUsers as users>
+							  		<option value="${users.userId}">${users.nickname}(${users.userId})</option>
+							 	</#list>
+							</select>
+							<input id='value' type="text" style="display:none" name="reciverId"  readonly="readonly"/>
+
+						<br>
+						主题：<input type="text" name="messageTitle" class="form-control" />
+						<br>
+						内容：<textarea name="messageContent" rows="6" class="form-control" placeholder="" ></textarea>
+						
+						<button type="submit" class="btn btn-danger form-control"> 提交表单 </button>
+					
+					</form>
+				</div>
+			</div>
+			
+
+		<div style="height: 80px;"></div>
+	</body>
+</html>
