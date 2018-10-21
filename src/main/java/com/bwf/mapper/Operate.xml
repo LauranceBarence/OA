@@ -4,5 +4,15 @@
 
 <!-- 对应 dao 中的 接口 -->
 <mapper namespace="com.bwf.dao.OperateMapper">
-
+	<resultMap type="com.bwf.entity.Operate" id="fullOperate">
+		<id column="operate_id" property="operateId" />
+		<result column="operate_name" property="operateName" />
+		<result column="operate_code" property="operateCode" />
+		<result column="operate_url" property="operateUrl" />
+		<result column="p_id" property="pId"/>
+	</resultMap>
+	
+	<select id="getAllOperate" resultMap  = "fullOperate">
+		select * from `operate`;
+	</select>
 </mapper>

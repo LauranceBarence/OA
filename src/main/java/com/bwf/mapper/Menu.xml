@@ -4,5 +4,14 @@
 
 <!-- 对应 dao 中的 接口 -->
 <mapper namespace="com.bwf.dao.MenuMapper">
-
+	<resultMap type="com.bwf.entity.Menu" id="fullMenu">
+		<id column="menu_id" property="menuId" />
+		<result column="menu_name" property="menuName" />
+		<result column="menu_url" property="menuUrl" />
+		<result column="p_id" property="pId"/>
+	</resultMap>
+	
+	<select id="getAllMenu" resultMap="fullMenu">
+		select * from `menu`
+	</select>
 </mapper>

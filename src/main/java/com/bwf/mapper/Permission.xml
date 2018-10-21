@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 对应 dao 中的 接口 -->
+<mapper namespace="com.bwf.dao.PermissionMapper">
+	<resultMap type="com.bwf.entity.Permission" id="permission">
+		<id column="permission_id" property="permissionId" />
+		<result column="permission_name" property="permissionName" />
+		<result column="permission_type" property="permissionType" />
+		<result column="p_id" property="pId" />
+	</resultMap>
+
+	<resultMap type="com.bwf.entity.Permission" id="fullPermission">
+		<id column="permission_id" property="permissionId" />
+		<result column="permission_name" property="permissionName" />
+		<result column="permission_type" property="permissionType" />
+		<result column="p_id" property="pId" />
+		<collection property="menus" ofType="com.bwf.entity.Menu"
+			resultMap="com.bwf.dao.MenuMapper.fullMenu"></collection>
+		<collection property="operates" ofType="com.bwf.entity.Operate"
+			resultMap="com.bwf.dao.OperateMapper.fullOperate"></collection>
+	</resultMap>
+
+	<select id="getAllPermission" resultMap="permission">
+		select * from
+		`permission` where permission_status=1;
+	</select>
+
+	<select id="getPermissionCount" resultType="int">
+		select count(*) from
+		`permission` where permission_status=1;
+	</select>
+
+	<select id="getAllPermissionByPage" resultMap="permission">
+		select * from
+		`permission` where permission_status=1 limit #{page},#{pageSize}
+	</select>
+
+	<insert id="addPermission" parameterType="com.bwf.entity.Permission"
+		useGeneratedKeys="true" keyProperty="permissionId">
+		insert into `permission` values
+		(null,#{permissionName},#{permissionType},#{pId},default);
+	</insert>
+
+	<insert id="addPermissionOperate">
+		insert into `rel_permission_operate` values
+		<foreach collection="operateIds" separator="," close=";"
+			item="operateId">
+			(#{permissionId},#{operateId})
+		</foreach>
+	</insert>
+
+	<insert id="addPermissionMenu">
+		insert into `rel_permission_menu` values
+		<foreach collection="menuIds" separator="," close=";" item="menuId">
+			(#{permissionId},#{menuId})
+		</foreach>
+	</insert>
+
+	<select id="getPermissionById" parameterType="int" resultMap="permission">
+		select * from `permission` where permission_id = #{permissionId} and
+		permission_status=1
+	</select>
+
+	<select id="getOperatesById" parameterType="int" resultType="int">
+		select 
+		operate_id from `rel_permission_operate` where permission_id =
+		#{permissionId}
+	</select>
+
+	<select id="getMenusById" parameterType="int" resultType="int">
+		select
+		menu_id from `rel_permission_menu` where permission_id =
+		#{permissionId}
+	</select>
+
+	<update id="editPermission" parameterType="com.bwf.entity.Permission">
+		update permission set
+		permission_name = #{permissionName}, permission_type =
+		#{permissionType},p_id = #{pId}
+	</update>
+
+	<delete id="deleteOperate" parameterType="int">
+		delete from
+		`rel_permission_operate` where permission_id = #{permissionId}
+	</delete>
+
+	<delete id="deleteMenu" parameterType="int">
+		delete from
+		`rel_permission_menu` where permission_id = #{permissionId}
+	</delete>
+
+	<select id="getFullPermissionById" parameterType="int"
+		resultMap="fullPermission">
+		select permission.*,operate.*,menu.*
+		from permission
+		LEFT
+		OUTER JOIN rel_permission_operate on permission.permission_id =
+		rel_permission_operate.permission_id
+		LEFT OUTER JOIN operate on
+		rel_permission_operate.operate_id =
+		operate.operate_id
+		LEFT OUTER JOIN
+		rel_permission_menu on permission.permission_id =
+		rel_permission_menu.permission_id
+		LEFT OUTER JOIN menu on
+		rel_permission_menu.menu_id = menu.menu_id where
+		permission.permission_id = #{permissionId} and
+		permission.permission_status=1
+	</select>
+
+	<update id="doDelete" parameterType="int">
+		update `permission` set
+		permission_status = 2 where permission_id = #{id}
+	</update>
+
+	<update id="doDeleteMulti">
+		update `permission` set permission_status = 2 where permission_id in
+		<foreach collection="ids" open="(" close=")" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

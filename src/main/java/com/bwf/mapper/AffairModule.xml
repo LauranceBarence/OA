@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bwf.dao.AffairModuleMapper">
+	<resultMap type="com.bwf.entity.AffairModule" id="affairModule">
+		<id column="module_id" property="moduleId"/>
+		<result column="module_name" property="moduleName"/>
+		<result column = "designer_id" property="designerId"/>
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.AffairModule" id="affairModuleWithDesigner">
+		<id column="module_id" property="moduleId"/>
+		<result column="module_name" property="moduleName"/>
+		<result column = "designer_id" property="designerId"/>
+		<association property="designer" javaType="com.bwf.entity.User" column="designer_id" select = "com.bwf.dao.UserMapper.getUserbyId"></association>
+	</resultMap>
+
+	<select id="getAllModules" resultMap="affairModule">
+		select * from `affair_module` where module_status=1
+	</select>
+	
+	<select id="getModuleCount" resultType="int">
+		select count(*) from affair_module where module_status=1;
+	</select>
+	
+	<select id="getModulesByPage" resultMap="affairModuleWithDesigner">
+		select * from affair_module where module_status=1 limit #{page},#{pageSize}
+	</select>
+	
+	<insert id="addModule" parameterType="com.bwf.entity.AffairModule" useGeneratedKeys="true" keyProperty="moduleId">
+		insert into `affair_module` values(null,#{moduleName},#{designerId},default)
+	</insert>
+	
+	<select id="getAffairModuleById" parameterType="int" resultMap="affairModule">
+		select * from affair_module where module_id = #{id}
+	</select>
+	
+	<update id="deleteModule" parameterType="int">
+		update affair_module set module_status=2 where module_id = #{id}
+	</update>
+	
+	<update id="doEdit" parameterType="com.bwf.entity.AffairModule">
+		update affair_module set module_name = #{moduleName} where module_id = #{moduleId}
+	</update>
+</mapper>

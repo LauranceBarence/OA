@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwf.dao.AffairRelModulePartMapper">
+	<resultMap type="com.bwf.entity.AffairRelModulePart" id="relModulePart">
+		<id column = "module_part_id" property="modulePartId"/>
+		<result column="module_id" property="moduleId"/>
+		<result column="part_id" property="partId"/>
+		<result column="order" property="order"/>
+		<result column="part_name" property="partName"/>
+		<result column="part_data" property="partData"/>
+	</resultMap>
+
+	<insert id="add">
+		insert into `affair_rel_module_part` values
+		<foreach collection="moduleParts" item="modulePart" separator="," close=";">
+			(null,#{modulePart.moduleId},#{modulePart.partId},#{modulePart.order},#{modulePart.partName},#{modulePart.partData})
+		</foreach>
+	</insert>
+	
+	<select id="getModulePartsByAffairModuleId" parameterType="int" resultMap="relModulePart">
+		select * from affair_rel_module_part where module_id = #{id}
+	</select>
+	
+	<delete id="deletePartsById" parameterType="int">
+		delete from affair_rel_module_part where module_id = #{id}
+	</delete>
+</mapper>

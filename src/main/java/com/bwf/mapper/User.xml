@@ -4,5 +4,81 @@
 
 <!-- 对应 dao 中的 接口 -->
 <mapper namespace="com.bwf.dao.UserMapper">
+	<resultMap type="com.bwf.entity.User" id="baseUser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avater" />
+		<result column="leader_id" property="leaderId"/>
+	</resultMap>
 
+	<resultMap type="com.bwf.entity.User" id="userWithRole">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avater" />
+		<result column="leader_id" property="leaderId"/>
+		<association property="role" javaType="com.bwf.entity.Role" resultMap="com.bwf.dao.RoleMapper.role"></association>
+	</resultMap>
+	<resultMap type="com.bwf.entity.User" id="fullUser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avater" />
+		<result column="leader_id" property="leaderId"/>
+		<association property="leader" javaType="com.bwf.entity.User" column="leader_id" select = "getLeader"></association>
+		<collection property="menus" ofType="com.bwf.entity.Menu"
+			resultMap="com.bwf.dao.MenuMapper.fullMenu"></collection>
+		<collection property="operates" ofType="com.bwf.entity.Operate"
+			resultMap="com.bwf.dao.OperateMapper.fullOperate"></collection>
+	</resultMap>
+
+	<select id="getUserbyNameandPassword" parameterType="com.bwf.entity.User"
+		resultMap="baseUser">
+		select * from `user` where username=#{username} and
+		password=#{password}
+	</select>
+
+	<select id="getUserbyId" parameterType="int" resultMap="baseUser">
+		select *
+		from `user` where user_id = #{userId} and status=1
+	</select>
+
+
+	<select id="getFullUser" parameterType="int" resultMap="fullUser">
+		select
+		`user`.*,menu.*,operate.* from `user`
+		LEFT OUTER JOIN rel_user_role on `user`.user_id = rel_user_role.user_id
+		LEFT OUTER JOIN role on rel_user_role.role_id=role.role_id
+		LEFT OUTER JOIN rel_role_permission on role.role_id =
+		rel_role_permission.role_id
+		LEFT OUTER JOIN permission on rel_role_permission.permission_id =
+		permission.permission_id
+		LEFT OUTER JOIN rel_permission_menu on permission.permission_id =
+		rel_permission_menu.permission_id
+		LEFT OUTER JOIN menu on rel_permission_menu.menu_id = menu.menu_id
+		LEFT OUTER JOIN rel_permission_operate on permission.permission_id =
+		rel_permission_operate.permission_id
+		LEFT OUTER JOIN operate on rel_permission_operate.operate_id =
+		operate.operate_id
+		where `user`.user_id = #{userId} and `user`.status=1
+	</select>
+	
+	<select id="getLeader" parameterType="com.bwf.entity.User" resultMap = "fullUser">
+		select * from user where user_id = #{user.leaderId} and `user`.status=1
+	</select>
+	
+	<insert id="addUser" parameterType="com.bwf.entity.User">
+		insert into `user` values
+		(null,#{username},#{password},#{nickname},#{avater},#{leader.userId},default)
+	</insert>
+	
+	<select id="getUsersWithRole" resultMap="userWithRole">
+		select user.*,role.* from user
+		left outer join rel_user_role on user.user_id = rel_user_role.user_id
+		left outer join role on rel_user_role.role_id = role.role_id
+	</select>
 </mapper>
