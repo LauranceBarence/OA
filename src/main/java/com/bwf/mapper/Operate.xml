@@ -7,7 +7,7 @@
 	<resultMap type="com.bwf.entity.Operate" id="fullOperate">
 		<id column="operate_id" property="operateId" />
 		<result column="operate_name" property="operateName" />
-		<result column="operate_code" property="operateCode" />
+		<result column="operate_action" property="operateAction" />
 		<result column="operate_url" property="operateUrl" />
 		<result column="p_id" property="pId"/>
 	</resultMap>
