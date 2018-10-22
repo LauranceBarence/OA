@@ -6,12 +6,22 @@
 <link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
 <script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
-<script type="text/javascript"
-	src="${rc.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${rc.contextPath}/js/wow.js"></script>
 <link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
 <script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
 <script type="text/javascript" src="${rc.contextPath}/js/Calendar3.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.seebut').click(function() {
+		var id = $(this).prev().val();
+		location.href='${rc.contextPath}/showmessage/'+id;
+	});
+}); 
+	 
+
+</script>
+
 </head>
 <body>
 
@@ -64,14 +74,16 @@
 									type="checkbox" name="id" /></td>
 								<td class="text-center">${m.messageTitle}</td>
 
-								<td width="120px" class="hidden-xs text-center">${m.reciverId}</td>
+								<td width="120px" class="hidden-xs text-center">${m.reciver}</td>
 								
 								<td width="120px" class="hidden-xs text-center">${m.messageTime}</td>
 								<td width="120px">
 									<span class="btn-group btn-group-xs text-center">
-										<button type="button" class="btn btn-default">查看</button>
-										<button type="button" class="btn btn-default">转寄</button>
-										<button type="button" class="btn btn-danger">删除</button>
+										<input type="hidden" value="${m.messageId}">
+										<button type="button" class="btn btn-default seebut" >查看</button>
+										<button type="button" class="btn btn-default" >转寄</button>
+										
+										<button type="button" class="btn btn-danger deletbut" >删除</button>
 									</span>
 								</td>
 							</tr>
@@ -113,13 +125,7 @@
 
 				</div>
 				<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5">
-					<div class="input-group input-group-sm">
-						<input type="text" class="form-control" placeholder="7" /> 
-						<span class="input-group-addon"> / 60 页 </span>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-darkgreen">Go</button>
-						</div>
-					</div>
+				
 				</div>
 			</div>
 

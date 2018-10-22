@@ -6,13 +6,18 @@ import com.bwf.entity.Message;
 import com.bwf.entity.User;
 
 public interface IMessageService {
-
+	//读取接收的信息
 	List<Message> getMessageByUserId(Integer userId);
-
-	void addemail(Message message);
-
+	//发送
+	void addemail(Message message, List<Integer> list, Integer sender);
+	
+	//读取发送的信息
 	List<Message> sentMessageByUserId(Integer userId);
+	//展示信息
+	Message showmessage(Integer id);
 
-	List<User> getReciversByMessageId(Integer[] ids);
+
+
+	
 
 }

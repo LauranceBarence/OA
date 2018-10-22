@@ -5,14 +5,27 @@ import java.util.List;
 public class Message {
 	
 	private Integer messageId;
-	private Integer senderId;
-	private String reciverId;
+
+	private String reciver;
 	private String messageTitle;
 	private String messageContent;
 	private String messageTime;
-	private Integer status;
 	private String accessory;
 	
+	private User user;
+	
+	@Override
+	public String toString() {
+		return "Message [messageId=" + messageId + ", reciver=" + reciver + ", messageTitle=" + messageTitle
+				+ ", messageContent=" + messageContent + ", messageTime=" + messageTime + ", accessory=" + accessory
+				+ ", users=" + users + "]";
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	private List<User> users;
 	
 	public List<User> getUsers() {
@@ -21,18 +34,14 @@ public class Message {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-	public String getReciverId() {
-		return reciverId;
+
+	public String getReciver() {
+		return reciver;
 	}
-	public void setReciverId(String reciverId) {
-		this.reciverId = reciverId;
+	public void setReciver(String reciver) {
+		this.reciver = reciver;
 	}
-	public Integer getSenderId() {
-		return senderId;
-	}
-	public void setSenderId(Integer senderId) {
-		this.senderId = senderId;
-	}
+
 	public Integer getMessageId() {
 		return messageId;
 	}
@@ -57,12 +66,7 @@ public class Message {
 	public void setMessageTime(String messageTime) {
 		this.messageTime = messageTime;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+
 	public String getAccessory() {
 		return accessory;
 	}

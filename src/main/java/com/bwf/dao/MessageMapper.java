@@ -8,16 +8,15 @@ import com.bwf.entity.Message;
 import com.bwf.entity.User;
 
 public interface MessageMapper {
-
+	//读取接收
 	List<Message> getMessageByUserId(Integer userId);
-
-	void addemail(Message message);
+	//新发送信息
+	Integer addemail(Message message);
 
 	List<Message> sentMessageByUserId(Integer userId);
-	List<User> getMessageBySendIdWithRecivers( Integer[] message);	
+	//展示
+	Message showmessage(Integer id);
 	
-	void addSenderAndReciver(Message message);
-
-	List<Message> getReciveMessage(Integer userId);
+	
 	
 }

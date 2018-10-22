@@ -1,20 +1,36 @@
 package com.bwf.entity;
 
+import java.util.List;
+
 public class User {
+
   @Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", nickname=" + nickname
 				+ ", avater=" + avater + "]";
 	}
-  private Integer userId;
+private Integer userId;
   private String username;
   private String password;
   private String nickname;
   private String avater;
   
+  private Message message;
+  public Message getMessage() {
+	return message;
+}
+public void setMessage(Message message) {
+	this.message = message;
+}
+private List<Message> messages;
   
   
-  
+public List<Message> getMessages() {
+	return messages;
+}
+public void setMessages(List<Message> messages) {
+	this.messages = messages;
+}
 public Integer getUserId() {
 	return userId;
 }

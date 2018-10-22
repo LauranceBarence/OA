@@ -1,6 +1,5 @@
 package com.bwf.entity;
 
-import java.util.List;
 
 public class SenderAndReciver {
 	
@@ -8,16 +7,34 @@ public class SenderAndReciver {
 	private Integer messageId;
 	private Integer senderId;
 	private Integer reciverId;
+	private Integer status;
 	
-	private List<Message> messages;
-	private List<User> users;
+	private Message message;
+	private User user;
 	
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+
 	@Override
 	public String toString() {
 		return "SenderAndReciver [id=" + id + ", messageId=" + messageId + ", senderId=" + senderId + ", reciverId="
-				+ reciverId + ", messages=" + messages + ", users=" + users + "]";
+				+ reciverId + ", status=" + status + ", message=" + message + ", user=" + user + "]";
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -42,18 +59,14 @@ public class SenderAndReciver {
 	public void setReciverId(Integer reciverId) {
 		this.reciverId = reciverId;
 	}
-	public List<Message> getMessages() {
-		return messages;
+
+	public User getUser() {
+		return user;
 	}
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public List<User> getUsers() {
-		return users;
-	}
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-	
-		
+
+
 }

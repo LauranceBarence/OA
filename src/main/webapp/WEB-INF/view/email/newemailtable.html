@@ -14,19 +14,29 @@
 		<script type="text/javascript" src="${rc.contextPath}/js/select2.min.js"></script>
 	 
 		<script type="text/javascript">
+
 			$(function(){
 				$(document).ready(function() {
 				    $('#selectl').select2();	
 				});
 				$('#selectl').change(function() {
-					$('#value').val($('#selectl').val())
+					$('#value').val($('#selectl').val());
+					
+					 
+					var arr= $('#value').val().split(',');					
+					
+					$.each(arr, function(index, i) {
+						$('#messageinput').append('<input id="value" type="text" class="hidden" name="reciverIds" value="'+i+'" />')
+					});
 				});
-				
-				
+				$('#but').keyup(function() {
+					alert('发送成功！');
+				});
 			});
-		
+
 		</script>
 	</head>
+
 	<body>
 		
 			<div class="panel panel-default">
@@ -34,25 +44,27 @@
 				
 				</div>
 				<div class="panel-body">
-					<form action="sendemail" method="POST" role="form">
+					<form  action="sendemail" method="POST" role="form">
 						
 						发件人：<input type="text" class="form-control"  readonly="readonly" value="${user.nickname}(${user.userId})"/>
-							<input type="text" style="display:none" name="senderId" class="form-control"  readonly="readonly" value="${user.userId}"/>
+							<input type="text" style="display:none" name="sender" class="form-control"  readonly="readonly" value="${user.userId}"/>
 			
 						<br>
-						收件人：<select id="selectl" class="form-control" multiple="multiple"  >
+						收件人：<select id="selectl" class="form-control" multiple="multiple" >
 						 		<#list allUsers as users>
 							  		<option value="${users.userId}">${users.nickname}(${users.userId})</option>
-							 	</#list>
+							 	</#list>	
 							</select>
-							<input id='value' type="text" style="display:none" name="reciverId"  readonly="readonly"/>
-
+							<input id="value" type="text"  style="display:none" name="reciver" />
+							<div id="messageinput" class="hidden">
+							
+							</div>
 						<br>
 						主题：<input type="text" name="messageTitle" class="form-control" />
 						<br>
 						内容：<textarea name="messageContent" rows="6" class="form-control" placeholder="" ></textarea>
 						
-						<button type="submit" class="btn btn-danger form-control"> 提交表单 </button>
+						<button id="but" type="submit" class="btn btn-danger form-control"> 提交表单 </button>
 					
 					</form>
 				</div>

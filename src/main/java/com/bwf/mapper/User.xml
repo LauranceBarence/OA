@@ -18,11 +18,19 @@
 		<result column="nickname" property="nickname" />
 	</resultMap>
 	
+	<resultMap type="com.bwf.entity.User" id="userWithMessage">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+		<collection property="userWithMesage" ofType="com.bwf.entity.Message" resultMap="com.bwf.dao.MessageMapper.message"></collection>
+	</resultMap>
+	
+	
 	<select id="getUserBy" parameterType="com.bwf.entity.User" resultMap="nuser">
 		select * from `user` where username = #{username} and password = #{password}
 	</select>
 	
-	<select id="getAllUsers" resultMap="nuser">
+	<select id="getAllUsers" resultMap="simplenessuser">
 		select * from `user` where user_id !=1
 	</select>
 	
