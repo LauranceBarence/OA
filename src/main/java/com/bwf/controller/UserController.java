@@ -52,7 +52,7 @@ public class UserController {
 		
 		if ( loginUser == null ) {
 			// 登录失败
-			logger.info("登录失败，用户名或密码错误");
+			logger.info("登录失败，用户名或密码错误!");
 			
 			// 带着错误信息， 跳转到 登录页面
 			return "redirect:/user/login?error=1";
