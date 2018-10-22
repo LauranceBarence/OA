@@ -20,7 +20,6 @@ import com.bwf.service.IAffairModuleService;
 import com.bwf.service.IAffairRelModulePartService;
 import com.bwf.service.IDepartmentService;
 import com.bwf.service.IUserService;
-import com.bwf.service.impl.AffairRelModulePartServiceImpl;
 
 @Controller
 @RequestMapping("affair_module")

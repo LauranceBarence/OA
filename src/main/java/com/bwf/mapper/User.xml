@@ -81,4 +81,58 @@
 		left outer join rel_user_role on user.user_id = rel_user_role.user_id
 		left outer join role on rel_user_role.role_id = role.role_id
 	</select>
+	
+	<select id="getAllUsers" resultMap = "baseUser">
+   		select * from `user` where status=1
+   	</select>
+   	
+   	<select id="getAllUserCount" resultType = "int">
+   		select count(*) from `user`
+   	</select>
+   	
+   	<select id="getAllUsersByPage" parameterType="int" resultMap = "baseUser">
+   		select * from `user`  where status = 1 limit #{p}, #{pageSize}
+   	</select>
+   	
+   	<update id="delete" parameterType="int">
+    	update `user` set status = 2 where user_id = #{id}
+    </update>
+    <!-- 删除多个user -->
+    <!-- 
+    <select id="deleteMulti">
+    	delete from `user` where user_id in
+    	<foreach collection="idArr" open="(" close=")" separator="," item="id">
+    		#{id}
+    	</foreach>
+    </select> -->
+    <update id="deleteMulti">
+    	update `user` set status = 2 where user_id in
+    	<foreach collection="idArr" open="(" close=")" separator="," item="id">
+    		#{id}
+    	</foreach>
+    </update>
+    
+        <update id="update" parameterType="com.bwf.entity.User">
+    	update `user` set 
+    		username = #{username} , 
+    		password = #{password} , 
+    		nickname = #{nickname} ,
+    		leader_id = #{leaderId}
+    	where user_id = #{userId}
+    </update>
+    
+    <update id="updateWithPassword" parameterType="com.bwf.entity.User">
+    	update `user` set     		
+    		password = '456' , 
+    		nickname = #{nickname} ,
+    		leader_id = #{leader.userId} 
+    	where user_id = #{userId}
+    </update>
+    
+    <update id="updateWithoutPassword" parameterType="com.bwf.entity.User">
+    	update `user` set     	
+    		nickname = #{nickname} ,
+    	    leader_id = #{leader.userId} 
+    	where user_id = #{userId}
+    </update>
 </mapper>
