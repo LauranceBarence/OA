@@ -46,8 +46,8 @@
 				<div class="panel-body">
 					<form  action="sendemail" method="POST" role="form">
 						
-						发件人：<input type="text" class="form-control"  readonly="readonly" value="${user.nickname}(${user.userId})"/>
-							<input type="text" style="display:none" name="sender" class="form-control"  readonly="readonly" value="${user.userId}"/>
+						发件人：<input type="text" class="form-control"  readonly="readonly" value="${currentUser.nickname}(${currentUser.userId})"/>
+							<input type="text" style="display:none" name="sender" class="form-control"  readonly="readonly" value="${currentUser.userId}"/>
 			
 						<br>
 						收件人：<select id="selectl" class="form-control" multiple="multiple" >
