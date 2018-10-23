@@ -61,11 +61,11 @@
 		select affair.* , affair_module.module_name ,
 		faqiren.nickname , affair_chain.* , shenpiren.nickname as nickname1
 		from affair
-		inner join affair_module on affair.affair_module_id = affair_module.module_id
-		inner join user faqiren on affair.proposer = faqiren.user_id
-		inner join
+		left outer join affair_module on affair.affair_module_id = affair_module.module_id
+		left outer join user faqiren on affair.proposer = faqiren.user_id
+		left outer join
 		affair_chain on affair.affair_id = affair_chain.affair_id
-		inner join
+		left outer join
 		user shenpiren on shenpiren.user_id = affair_chain.approver
 		where
 		affair.affair_id = #{id};

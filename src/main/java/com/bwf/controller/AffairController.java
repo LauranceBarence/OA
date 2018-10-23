@@ -34,14 +34,12 @@ public class AffairController {
 
 	@RequestMapping("show")
 	public String show(ModelMap modelMap , HttpSession session) {
-		User currentUser = (User) session.getAttribute("user");
+		User currentUser = (User) session.getAttribute("currentUser");
 
 		// 我发起的
 		List<Affair> affairByMe = affairService.getAffairByMe(currentUser);
-
 		// 等我审批的
 		List<Affair> affairToBePropose = affairService.getAffairToBePropose(currentUser);
-
 		modelMap.addAttribute("affairByMe", affairByMe);
 		modelMap.addAttribute("affairToBePropose", affairToBePropose);
 		modelMap.addAttribute("affairModules", affairModuleService.getAllModules());
@@ -50,7 +48,6 @@ public class AffairController {
 
 	@RequestMapping("detail/{id}")
 	public String detail(@PathVariable Integer id, ModelMap model) {
-
 		Affair affair = affairService.getAffairDetailByAffairId(id);
 		model.addAttribute("affair", affair);
 
@@ -95,13 +92,14 @@ public class AffairController {
 		User currentUser = (User) session.getAttribute("currentUser");
 		Affair affair = new Affair();
 		AffairModule affairModule = new AffairModule();
+		
 		affairModule.setModuleId(affairModuleId);
 		affair.setAffairModule(affairModule);
 		affair.setAffairData(html);
 		affair.setProposer(currentUser);
 		affair.setAffairStatus(0);
-		System.out.println(html);
 		affairService.add(affair, currentUser);
+		affairChainService.generateChain(affair.getAffairId(),currentUser,affairModule.getModuleId());
 		return "redirect:/affair/show";
 	}
 }

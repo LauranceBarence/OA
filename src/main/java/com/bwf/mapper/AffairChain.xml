@@ -9,6 +9,7 @@
 		<result column="affair_chain_status" property="affairChainStatus"/>
 		<result column="affair_comment" property="affairComment"/>
 		<result column="approver" property="approverId"/>
+		<association property="approver" javaType="com.bwf.entity.User" column="approver" select="com.bwf.dao.UserMapper.getUserbyId"></association>
 	</resultMap>
 
 	<insert id="add" >

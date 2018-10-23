@@ -17,11 +17,9 @@ public class OperateInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		
 
-		System.out.println( request.getRequestURI() );
 		
 		boolean sessionContainsUri = false;
 		User user = (User) request.getSession().getAttribute("currentUser"); 
-		List<Operate> os = user.getOperates();
 		
 		//System.out.println(user.getOperates());
 		for( Operate o : user.getOperates() ) {
@@ -36,5 +34,7 @@ public class OperateInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect( request.getContextPath() + "/error/error");
 			return false;
 		}
+		
+		//return true;
 	}
 }

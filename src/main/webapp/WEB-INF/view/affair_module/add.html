@@ -31,7 +31,7 @@
 
 		$('#chain-panel').on('click','.chain-part',function(){
 			var part = $(this);
-			var chainElem = $('<div class = "panel panel-default col-md-1 chain-elem"></div>');
+			var chainElem = $('<div class = "panel panel-default col-md-2 chain-elem"></div>');
 			var deleteChain = $('<div class = "text-right "><button class = "delete-chain btn btn-danger btn-xs" type="button"><span class = "glyphicon glyphicon-remove"></span></button></div>');
 			var elemBody = $('<div class = "panel-body"><input type = "text" name = "chainIds" class = "hidden" value = "'+part.val()+'"</div>').append(part.clone().removeClass('chain-part'));
 			var rightArrow = $('<span class = "rightArrow glyphicon glyphicon-arrow-right"></span>');
@@ -148,6 +148,15 @@
 							</div>
 							<hr />
 							</#list>
+							<div class = "row">
+								<div class = "col-md-4 text-center">
+									直属上级
+								</div>
+								<div class="col-md-8 chain-parts">
+									<button type="button" class="btn btn-primary btn-xs chain-part"
+										name="userId" value="-1">直属上级</button>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-12 panel panel-default" >
 							<div class = "panel-heading">

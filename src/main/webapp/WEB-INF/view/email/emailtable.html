@@ -72,7 +72,7 @@ $(function(){
 							<td width="50px" align="center" class="td-checkbox"><input
 								type="checkbox" name="id" /></td>
 							<td class="text-center">${rm.messageTitle}</td>
-							<td width="120px" class="hidden-xs text-center">${rm.nickname} </td>
+							<td width="120px" class="hidden-xs text-center"><#list rm.users as rmu>${rmu.nickname} </#list> </td>
 							<td width="120px" class="hidden-xs text-center">${rm.messageTime}</td>
 							<td width="120px">
 								<span class="btn-group btn-group-xs text-center">

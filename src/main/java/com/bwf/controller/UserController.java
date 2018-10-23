@@ -37,10 +37,6 @@ public class UserController {
 
 		if (loginUser != null) {
 			List<Menu> menus = loginUser.getMenus();
-			
-			for(Menu m:menus){
-				System.out.println(m);
-			}
 			session.setAttribute("currentUser", loginUser);
 			return "redirect:/index";
 		} else {

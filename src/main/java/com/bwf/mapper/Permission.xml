@@ -78,7 +78,7 @@
 	<update id="editPermission" parameterType="com.bwf.entity.Permission">
 		update permission set
 		permission_name = #{permissionName}, permission_type =
-		#{permissionType},p_id = #{pId}
+		#{permissionType},p_id = #{pId} where permission_id=#{permissionId}
 	</update>
 
 	<delete id="deleteOperate" parameterType="int">
