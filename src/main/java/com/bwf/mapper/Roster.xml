@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 对应 dao 中的 接口 -->
+<mapper namespace="com.bwf.dao.RosterMapper">
+
+	<resultMap type="com.bwf.entity.Attendence" id="attendence">
+		<id column = "attendence_id" property = "attendenceId"/>
+		<result column = "user_id" property = "userId"/>
+		<result column = "sign_time" property = "signTime"/>
+		
+	</resultMap>
+	
+	<select id="getAllAttendence" resultMap="attendence">
+		select attendence.*, user.nickname from attendence
+		inner join user on user.user_id = attendence.user_id 
+	</select>
+	
+	
+	
+	<insert id="add" parameterType="com.bwf.entity.Attendence" useGeneratedKeys="true" keyProperty="attendenceId">
+    	insert into `attendence` values ( null , #{userId}, #{signTime})
+    </insert>
+    
+    
+    
+    <select id="getAttendenceById" parameterType="int" resultMap="attendence">
+    	select * from attendence where user_id=#{id}
+    </select>
+	
+</mapper>

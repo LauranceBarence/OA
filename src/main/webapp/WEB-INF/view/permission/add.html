@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>add</title>
+<link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wow.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.btn-back').click(function(){
+			location.href = "${rc.contextPath}/permission/show";
+		});	
+	});
+</script>
+</head>
+<body>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<button type="button" class="btn btn-default btn-back btn-sm">
+				返 回</button>
+			&nbsp;&nbsp;添加权限
+		</div>
+		<div class="panel-body">
+			<form action="${rc.contextPath}/permission/doAdd" method="Get" role="form">
+
+				<!-- 权限名 -->
+				<input type="text" name="permissionName" class="form-control"
+					placeholder="权限名称" /> <hr />
+
+				<!-- 新权限操作设置 -->
+				<div id="alloperates">
+					<label>选择操作</label><br/>
+					<#list operate as o1> <#if
+						o1.pId!=null> <input type="checkbox"
+						name="operateId" value="${o1.operateId}" />${o1.operateName}&nbsp;&nbsp;&nbsp;
+						<#if (o1.operateId-5)%10=0><br/></#if>
+					</#if> </#list>
+				</div>
+				<hr/>
+				<!-- 新权限菜单设置 -->
+				<div id="allmenus">
+					<label>选择菜单</label><br/>
+					<#list menus as m1>
+						<#if m1.pId=0>
+							<input type="checkbox" name="menuId" value="${m1.menuId}" />${m1.menuName}</br> &nbsp;&nbsp;&nbsp;&nbsp;
+							<#list menus as m2>
+								<#if m2.pId = m1.menuId>
+									<input type="checkbox" name="menuId" value = "${m2.menuId}"/>${m2.menuName}&nbsp;&nbsp;
+								</#if>
+							</#list>
+							<br/>
+						</#if>
+					</#list>
+				</div>
+				<hr/>
+				
+				<!-- 选择权限上级 -->
+				<select class="form-control" name="pId">
+					<option value="-1">--请选择上级权限--</option>
+					<#list permissions as p>
+					<option value="${p.permissionId}">${p.permissionName}</option>
+
+					</#list>
+				</select>
+				<hr/>
+				
+				<button type="submit" class="btn btn-danger form-control">
+					添加权限</button>
+
+			</form>
+		</div>
+	</div>
+
+	<div style="height: 80px;"></div>
+</body>
+</html>

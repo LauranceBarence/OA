@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>add</title>
+<link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wow.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.btn-back').click(function(){
+			location.href = "${rc.contextPath}/role/show";
+		});	
+	});
+</script>
+</head>
+<body>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<button type="button" class="btn btn-default btn-back btn-sm">
+				返 回</button>
+			&nbsp;&nbsp;添加角色
+		</div>
+		<div class="panel-body">
+			<form action="${rc.contextPath}/role/doAdd" method="Get" role="form">
+
+				<!-- 角色名 -->
+				<input type="text" name="roleName" class="form-control"
+					placeholder="角色名" /> <hr />
+
+				<!-- 新角色权限设置 -->
+				<div id="permissions">
+					<label>选择权限</label><br/>
+					<#list permissions as permission1> <#if
+						permission1.pId=null> <input type="checkbox"
+						name="permissionId" value="${permission1.permissionId}" />${permission1.permissionName}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+							<#list permissions as permission2>
+								<#if permission2.pId=permission1.permissionId>
+									<input type="checkbox" name="permissionId" value = "${permission2.permissionId}"/>${permission2.permissionName}&nbsp;
+								</#if>
+							</#list>
+						<br/>
+					</#if> </#list>
+				</div>
+				<hr/>
+				<!-- 选择角色所属部门 -->
+				<select class="form-control" name="departmentId">
+					<option value="-1">--请选择角色所属部门--</option>
+					<#list departments as department>
+					<option value="${department.departmentId}">${department.departmentName}</option>
+
+					</#list>
+				</select>
+				<hr/>
+				
+				<button type="submit" class="btn btn-danger form-control">
+					添加角色</button>
+
+			</form>
+		</div>
+	</div>
+
+	<div style="height: 80px;"></div>
+</body>
+</html>

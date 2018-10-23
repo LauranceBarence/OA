@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 对应 dao 中的 接口 -->
+<mapper namespace="com.bwf.dao.DepartmentMapper">
+	<resultMap type="com.bwf.entity.Department" id="department">
+		<id column="department_id" property="departmentId" />
+		<result column="department_name" property="departmentName" />
+		<result column="p_id" property="pId" />
+		<result column="chief_id" property="chiefId" />
+		<association property="chief" javaType="com.bwf.entity.User" column="chief_id" select="com.bwf.dao.UserMapper.getUserbyId"></association>
+		<collection property="staff" ofType = "com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.baseUser"></collection>
+	</resultMap>
+	
+	<select id="getAllDepartment" resultMap = "department">
+		select * from `department`
+	</select>
+	
+	<select id="getDepartmentById" parameterType="int" resultMap="department">
+		select * from `department` where department_id = #{departmentId};
+	</select>
+</mapper>

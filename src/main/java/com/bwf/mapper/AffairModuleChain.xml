@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bwf.dao.AffairModuleChainMapper">
+	<resultMap type="com.bwf.entity.AffairModuleChain" id="affairModuleChain">
+		<id column="module_chain_id" property="moduleChainId" />
+		<result column="order" property="order" />
+		<result column="approver_id" property="approverId" />
+		<result column="module_id" property="moduleId" />
+		<association property="approver" javaType="com.bwf.entity.User"
+			column="approver_id" resultMap="com.bwf.dao.UserMapper.baseUser"></association>
+	</resultMap>
+
+	<insert id="add">
+		insert into `affair_module_chain` values
+		<foreach collection="chains" item="chain" separator="," close=";">
+			(null,#{chain.order},#{chain.approverId},#{chain.moduleId})
+		</foreach>
+
+	</insert>
+
+	<select id="getAffairModuleChainsByAffairModuleId" resultMap = "affairModuleChain">
+		select * from affair_module_chain
+		left outer join user on affair_module_chain.approver_id = user.user_id
+		where
+		module_id = #{id};
+	</select>
+	
+	<delete id="deleteChainById" parameterType="int">
+		delete from affair_module_chain where module_id = #{id}
+	</delete>
+</mapper>

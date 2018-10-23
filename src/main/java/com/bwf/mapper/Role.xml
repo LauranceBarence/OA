@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 对应 dao 中的 接口 -->
+<mapper namespace="com.bwf.dao.RoleMapper">
+	<resultMap type="com.bwf.entity.Role" id="role">
+		<id column="role_id" property="roleId" />
+		<result column="role_name" property="roleName" />
+		<result column="department_id" property="departmentId" />
+	</resultMap>
+
+	<resultMap type="com.bwf.entity.Role" id="fullRole">
+		<id column="role_id" property="roleId" />
+		<result column="role_name" property="roleName" />
+		<result column="department_id" property="departmentId" />
+		<association property="department" javaType="com.bwf.entity.Department"
+			column="department_id" select="com.bwf.dao.DepartmentMapper.getDepartmentById"></association>
+		<collection property="permissions" ofType="com.bwf.entity.Permission"
+			resultMap="com.bwf.dao.PermissionMapper.permission"></collection>
+	</resultMap>
+
+	<select id="getAllRoles" resultMap="role">
+		select * from `role` where
+		role_status = 1
+	</select>
+
+	<select id="getRoleCount" resultType="int">
+		select count(*) from `role`
+		where role_status = 1;
+	</select>
+
+	<select id="getAllRolesByPage" resultMap="role">
+		select * from `role`
+		where role_status = 1 limit #{page},#{pageSize}
+	</select>
+
+	<update id="doDelete" parameterType="int">
+		update `role` set
+		role_status = 2 where role_id = #{id}
+	</update>
+
+	<update id="doDeleteMulti">
+		update `role` set role_status = 2 where role_id in
+		<foreach collection="ids" open="(" close=")" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</update>
+
+	<insert id="addRole" parameterType="com.bwf.entity.Role">
+		insert into `role`
+		values(null,#{roleName},#{departmentId},default)
+	</insert>
+
+	<insert id="addRolePermission">
+		insert into `rel_role_permission` values
+		<foreach collection="permissionIds" separator="," close=";"
+			item="permissionId">
+			(#{role.roleId},#{permissionId})
+		</foreach>
+	</insert>
+
+	<select id="getRoleByName" parameterType="com.bwf.entity.Role"
+		resultMap="role">
+		select * from `role` where role_name = #{roleName}
+	</select>
+
+	<select id="getRoleById" parameterType="int" resultMap="fullRole">
+		select
+		role.*,permission.* from role
+		LEFT OUTER JOIN rel_role_permission on role.role_id =
+		rel_role_permission.role_id
+		LEFT OUTER JOIN permission on rel_role_permission.permission_id =
+		permission.permission_id
+		where role.role_id = #{id}
+	</select>
+	
+	<update id="editRole" parameterType="com.bwf.entity.Role">
+		update `role` set role_name = #{roleName},department_id = #{departmentId} where role_id = #{roleId}
+	</update>
+	
+	<delete id="deleteRolePermission" parameterType="com.bwf.entity.Role">
+		delete from `rel_role_permission` where role_id = #{roleId}
+	</delete>
+</mapper>

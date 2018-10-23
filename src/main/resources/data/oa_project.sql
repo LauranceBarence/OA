@@ -11,11 +11,180 @@
  Target Server Version : 50717
  File Encoding         : 65001
 
- Date: 10/10/2018 18:31:43
+ Date: 23/10/2018 09:21:29
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for affair
+-- ----------------------------
+DROP TABLE IF EXISTS `affair`;
+CREATE TABLE `affair`  (
+  `affair_id` int(10) NOT NULL AUTO_INCREMENT,
+  `affair_module_id` int(10) DEFAULT NULL,
+  `affair_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `proposer` int(10) DEFAULT 1,
+  `affair_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`affair_id`) USING BTREE,
+  INDEX `fk_form_status`(`proposer`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair
+-- ----------------------------
+INSERT INTO `affair` VALUES (1, NULL, NULL, NULL, 0);
+INSERT INTO `affair` VALUES (2, 1, '\'						<input type=\"text\" class=\"hidden\" id=\"content\" name=\"html\">												<input type=\"text\" class=\"hidden\" name=\"affairModuleId\" value=\"1\" disabled=\"disabled\">						  <div class=\"form-group\">						  						     <!-- 多选框 -->					    		<label for=\"\" class=\"col-sm-2 control-label\">请假事由</label>					    		<div class=\"col-sm-10\">					    			<!-- 遍历选项 -->								    <label class=\"checkbox-inline\">								        <input type=\"checkbox\" value=\"\" checked=\"checked\" disabled=\"disabled\"> 								    </label>							    </div>													    							  </div>						  <div class=\"form-group\">						  						     <!-- 日期时间 -->					    		<label for=\"\" class=\"col-sm-2 control-label\">请假开始时间</label>							    <div class=\"col-sm-10\">							      <input type=\"datetime-local\" class=\"form-control\" value=\"2018-10-22T00:00\" disabled=\"disabled\">							    </div>							    						  </div>						  <div class=\"form-group\">						  						     <!-- 日期时间 -->					    		<label for=\"\" class=\"col-sm-2 control-label\">请假结束时间</label>							    <div class=\"col-sm-10\">							      <input type=\"datetime-local\" class=\"form-control\" value=\"2018-10-23T23:59\" disabled=\"disabled\">							    </div>							    						  </div>					\'', 1, 0);
+
+-- ----------------------------
+-- Table structure for affair_chain
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_chain`;
+CREATE TABLE `affair_chain`  (
+  `affair_chain_id` int(11) NOT NULL,
+  `affair_id` int(11) DEFAULT NULL,
+  `affair_chain_order` int(11) DEFAULT NULL,
+  `affair_chain_status` int(11) DEFAULT NULL,
+  `affair_comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `approver` int(11) DEFAULT NULL,
+  PRIMARY KEY (`affair_chain_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for affair_module
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_module`;
+CREATE TABLE `affair_module`  (
+  `module_id` int(11) NOT NULL AUTO_INCREMENT,
+  `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `designer_id` int(11) DEFAULT NULL,
+  `module_status` int(11) DEFAULT 1,
+  PRIMARY KEY (`module_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_module
+-- ----------------------------
+INSERT INTO `affair_module` VALUES (1, '请假申请单', 1, 1);
+INSERT INTO `affair_module` VALUES (2, '出差申请单', 1, 1);
+INSERT INTO `affair_module` VALUES (3, 'testAffair', 1, 1);
+INSERT INTO `affair_module` VALUES (4, 'admintest', 1, 1);
+INSERT INTO `affair_module` VALUES (5, 'admintest2', 1, 1);
+INSERT INTO `affair_module` VALUES (6, 'testAdmin3', 1, 1);
+
+-- ----------------------------
+-- Table structure for affair_module_chain
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_module_chain`;
+CREATE TABLE `affair_module_chain`  (
+  `module_chain_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order` int(10) DEFAULT NULL,
+  `approver_id` int(11) DEFAULT NULL,
+  `module_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`module_chain_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_module_chain
+-- ----------------------------
+INSERT INTO `affair_module_chain` VALUES (1, 1, 9, 4);
+INSERT INTO `affair_module_chain` VALUES (2, 2, 8, 4);
+INSERT INTO `affair_module_chain` VALUES (3, 3, 12, 4);
+INSERT INTO `affair_module_chain` VALUES (4, 4, 3, 4);
+INSERT INTO `affair_module_chain` VALUES (9, 1, 9, 6);
+INSERT INTO `affair_module_chain` VALUES (10, 2, 12, 6);
+INSERT INTO `affair_module_chain` VALUES (11, 3, 3, 6);
+INSERT INTO `affair_module_chain` VALUES (12, 4, 15, 6);
+INSERT INTO `affair_module_chain` VALUES (13, 5, 6, 6);
+INSERT INTO `affair_module_chain` VALUES (14, 1, 8, 5);
+INSERT INTO `affair_module_chain` VALUES (15, 2, 14, 5);
+
+-- ----------------------------
+-- Table structure for affair_module_part
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_module_part`;
+CREATE TABLE `affair_module_part`  (
+  `part_id` int(11) NOT NULL AUTO_INCREMENT,
+  `part_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`part_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_module_part
+-- ----------------------------
+INSERT INTO `affair_module_part` VALUES (1, '单行文本框');
+INSERT INTO `affair_module_part` VALUES (2, '多行文本框');
+INSERT INTO `affair_module_part` VALUES (3, '多选框');
+INSERT INTO `affair_module_part` VALUES (4, '单选按钮');
+INSERT INTO `affair_module_part` VALUES (5, '下拉菜单');
+INSERT INTO `affair_module_part` VALUES (6, '日期');
+INSERT INTO `affair_module_part` VALUES (7, '时间');
+INSERT INTO `affair_module_part` VALUES (8, '日期时间');
+
+-- ----------------------------
+-- Table structure for affair_module_status
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_module_status`;
+CREATE TABLE `affair_module_status`  (
+  `module_status` int(10) NOT NULL,
+  `status_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`module_status`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_module_status
+-- ----------------------------
+INSERT INTO `affair_module_status` VALUES (1, '启用中');
+INSERT INTO `affair_module_status` VALUES (2, '已弃用');
+
+-- ----------------------------
+-- Table structure for affair_rel_module_part
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_rel_module_part`;
+CREATE TABLE `affair_rel_module_part`  (
+  `module_part_id` int(11) NOT NULL AUTO_INCREMENT,
+  `module_id` int(11) DEFAULT NULL,
+  `part_id` int(11) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
+  `part_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `part_data` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`module_part_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_rel_module_part
+-- ----------------------------
+INSERT INTO `affair_rel_module_part` VALUES (1, 1, 3, 1, '请假事由', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (2, 1, 8, 2, '请假开始时间', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (3, 1, 8, 3, '请假结束时间', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (4, 2, 3, 1, '出差事由', '开会,业务交流,参观学习');
+INSERT INTO `affair_rel_module_part` VALUES (5, 2, 2, 2, '出差具体事由', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (6, 2, 1, 3, '出差地点', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (7, 2, 8, 4, '出差开始时间', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (8, 2, 8, 5, '出差结束时间', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (9, NULL, 1, 0, 'testpart1', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (10, NULL, 2, 1, 'testpart2', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (11, NULL, 1, 0, 'test222', NULL);
+INSERT INTO `affair_rel_module_part` VALUES (22, 5, 1, 0, 'test2222', '1,2,3');
+INSERT INTO `affair_rel_module_part` VALUES (23, 5, 1, 1, 'test22222', '1,5');
+
+-- ----------------------------
+-- Table structure for affair_status
+-- ----------------------------
+DROP TABLE IF EXISTS `affair_status`;
+CREATE TABLE `affair_status`  (
+  `affair_status` int(10) NOT NULL,
+  `affair_status_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`affair_status`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of affair_status
+-- ----------------------------
+INSERT INTO `affair_status` VALUES (0, '未审核');
+INSERT INTO `affair_status` VALUES (1, '已通过');
+INSERT INTO `affair_status` VALUES (2, '已驳回');
 
 -- ----------------------------
 -- Table structure for attend_rank
@@ -36,12 +205,59 @@ CREATE TABLE `attend_rank`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `attendence`;
 CREATE TABLE `attendence`  (
-  `attendence_id` int(10) NOT NULL,
+  `attendence_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL,
-  `sign_in_time` datetime(0) DEFAULT NULL,
-  `sign_out_time` datetime(0) DEFAULT NULL,
+  `sign_time` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`attendence_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of attendence
+-- ----------------------------
+INSERT INTO `attendence` VALUES (1, 1, '2018-10-01 09:30:00');
+INSERT INTO `attendence` VALUES (2, 1, '2018-10-01 18:30:01');
+INSERT INTO `attendence` VALUES (3, 2, '2018-10-01 09:32:02');
+INSERT INTO `attendence` VALUES (4, 2, '2018-10-01 19:33:01');
+INSERT INTO `attendence` VALUES (5, 5, '2018-10-01 09:31:02');
+INSERT INTO `attendence` VALUES (6, 5, '2018-10-01 18:32:03');
+INSERT INTO `attendence` VALUES (7, 6, '2018-10-01 09:30:02');
+INSERT INTO `attendence` VALUES (8, 6, '2018-10-01 20:31:03');
+INSERT INTO `attendence` VALUES (9, 8, '2018-10-01 09:32:04');
+INSERT INTO `attendence` VALUES (10, 8, '2018-10-01 18:30:03');
+INSERT INTO `attendence` VALUES (11, 9, '2018-10-01 09:31:04');
+INSERT INTO `attendence` VALUES (12, 9, '2018-10-01 17:32:05');
+INSERT INTO `attendence` VALUES (13, 11, '2018-10-01 09:30:04');
+INSERT INTO `attendence` VALUES (14, 11, '2018-10-01 19:31:05');
+INSERT INTO `attendence` VALUES (15, 18, '2018-10-01 09:32:06');
+INSERT INTO `attendence` VALUES (16, 18, '2018-10-01 20:30:05');
+INSERT INTO `attendence` VALUES (17, 19, '2018-10-01 09:31:06');
+INSERT INTO `attendence` VALUES (18, 19, '2018-10-01 21:32:07');
+INSERT INTO `attendence` VALUES (19, 10, '2018-10-01 09:30:06');
+INSERT INTO `attendence` VALUES (20, 10, '2018-10-01 18:31:07');
+INSERT INTO `attendence` VALUES (21, 20, '2018-10-01 09:30:01');
+INSERT INTO `attendence` VALUES (22, 20, '2018-10-01 19:31:02');
+INSERT INTO `attendence` VALUES (23, 21, '2018-10-01 09:32:03');
+INSERT INTO `attendence` VALUES (24, 21, '2018-10-01 20:30:02');
+INSERT INTO `attendence` VALUES (25, 22, '2018-10-01 09:31:03');
+INSERT INTO `attendence` VALUES (26, 22, '2018-10-01 18:32:04');
+INSERT INTO `attendence` VALUES (27, 24, '2018-10-01 09:30:03');
+INSERT INTO `attendence` VALUES (28, 24, '2018-10-01 20:31:04');
+INSERT INTO `attendence` VALUES (29, 25, '2018-10-01 09:32:05');
+INSERT INTO `attendence` VALUES (30, 25, '2018-10-01 19:30:04');
+INSERT INTO `attendence` VALUES (31, 1, '2018-10-18 18:14:24');
+INSERT INTO `attendence` VALUES (32, 1, '2018-10-18 18:16:14');
+INSERT INTO `attendence` VALUES (33, 1, '2018-10-18 18:16:33');
+INSERT INTO `attendence` VALUES (34, 1, '2018-10-18 18:23:50');
+INSERT INTO `attendence` VALUES (35, 1, '2018-10-18 18:26:13');
+INSERT INTO `attendence` VALUES (36, 1, '2018-10-18 18:29:17');
+INSERT INTO `attendence` VALUES (37, 1, '2018-10-18 19:14:57');
+INSERT INTO `attendence` VALUES (38, 1, '2018-10-18 19:15:32');
+INSERT INTO `attendence` VALUES (39, 1, '2018-10-18 19:17:40');
+INSERT INTO `attendence` VALUES (40, 1, '2018-10-18 19:21:54');
+INSERT INTO `attendence` VALUES (41, 11, '2018-10-19 09:43:12');
+INSERT INTO `attendence` VALUES (42, 19, '2018-10-19 10:01:20');
+INSERT INTO `attendence` VALUES (43, 19, '2018-10-19 10:34:49');
+INSERT INTO `attendence` VALUES (44, 19, '2018-10-19 17:13:26');
 
 -- ----------------------------
 -- Table structure for attendence_standard
@@ -149,32 +365,50 @@ INSERT INTO `menu` VALUES (4, '个人办公', '', '');
 INSERT INTO `menu` VALUES (5, '系统设置', '', '');
 INSERT INTO `menu` VALUES (6, '考勤管理', '', '1');
 INSERT INTO `menu` VALUES (7, '公告管理', '', '1');
-INSERT INTO `menu` VALUES (8, '员工管理', '', '1');
+INSERT INTO `menu` VALUES (8, '员工管理', 'user/show', '1');
 INSERT INTO `menu` VALUES (9, '部门管理', '', '1');
-INSERT INTO `menu` VALUES (10, '角色管理', '', '1');
-INSERT INTO `menu` VALUES (11, '权限管理', '', '1');
-INSERT INTO `menu` VALUES (12, '公文设计', '', '2');
-INSERT INTO `menu` VALUES (13, '公文管理', '', '2');
-INSERT INTO `menu` VALUES (14, '邮箱管理', '', '3');
+INSERT INTO `menu` VALUES (10, '角色管理', 'role/show', '1');
+INSERT INTO `menu` VALUES (11, '权限管理', 'permission/show', '1');
+INSERT INTO `menu` VALUES (12, '公文设计', 'affair_module/show', '2');
+INSERT INTO `menu` VALUES (13, '公文管理', 'affair/show', '2');
 INSERT INTO `menu` VALUES (15, '工作日志', '', '4');
 INSERT INTO `menu` VALUES (16, '行程安排', '', '4');
 INSERT INTO `menu` VALUES (17, '菜单管理', '', '5');
 INSERT INTO `menu` VALUES (18, '个人设置', '', '5');
+INSERT INTO `menu` VALUES (19, '文档管理', '', NULL);
+INSERT INTO `menu` VALUES (21, '新建信息', 'email/newemail', '3');
+INSERT INTO `menu` VALUES (22, '收件箱', 'email/email', '3');
+INSERT INTO `menu` VALUES (23, '发件箱', 'email/sentemail', '3');
+INSERT INTO `menu` VALUES (24, '已删除邮件', 'email/deletemail', '3');
 
 -- ----------------------------
 -- Table structure for message
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message`  (
-  `message_id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL AUTO_INCREMENT,
   `sender_id` int(10) DEFAULT NULL,
-  `reciver_id` int(10) DEFAULT NULL,
+  `reciver_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `message_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `message_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `read_status` int(10) DEFAULT NULL,
+  `message_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `status` int(10) DEFAULT NULL,
   `message_time` datetime(0) DEFAULT NULL,
+  `accessory` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`message_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of message
+-- ----------------------------
+INSERT INTO `message` VALUES (1, 1, '2', 'qwe', 'wsxwewe', 2, '2018-10-19 09:43:03', NULL);
+INSERT INTO `message` VALUES (2, 2, '3', '你好', '撒旦法撒旦撒旦法啊 电工房电工房 规范化人头费天润城V型吧', 2, '2018-10-19 14:27:47', NULL);
+INSERT INTO `message` VALUES (3, 2, '2,4,5', '梵蒂冈哈斯的风格到公司', '123123dsfas', 2, '2018-10-20 15:19:50', NULL);
+INSERT INTO `message` VALUES (4, 2, '5,7', '发顺丰的他儿童d当时发生的大法师fasfd', 'fgdfsg', 2, '2018-10-20 15:23:29', NULL);
+INSERT INTO `message` VALUES (5, 2, '6,7', '梵蒂冈哈斯的', 'ghjbvdsd', 2, '2018-10-20 15:25:01', NULL);
+INSERT INTO `message` VALUES (6, 2, '', '', '', 2, '2018-10-20 15:28:49', NULL);
+INSERT INTO `message` VALUES (7, 2, '', '', '', 2, '2018-10-20 15:30:02', NULL);
+INSERT INTO `message` VALUES (8, 2, '', '', '', 2, '2018-10-20 15:31:05', NULL);
+INSERT INTO `message` VALUES (9, 2, '', '', '', 2, '2018-10-20 15:32:33', NULL);
 
 -- ----------------------------
 -- Table structure for message_status
@@ -215,7 +449,7 @@ DROP TABLE IF EXISTS `operate`;
 CREATE TABLE `operate`  (
   `operate_id` int(10) NOT NULL,
   `operate_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `operate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `operate_action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `operate_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `p_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`operate_id`) USING BTREE
@@ -229,10 +463,10 @@ INSERT INTO `operate` VALUES (6, '考勤管理', 'Roster', '', 1);
 INSERT INTO `operate` VALUES (7, '公告管理', 'News', '', 1);
 INSERT INTO `operate` VALUES (8, '员工管理', 'User', '', 1);
 INSERT INTO `operate` VALUES (9, '部门管理', 'Department', '', 1);
-INSERT INTO `operate` VALUES (10, '角色管理', 'Role', '', 1);
-INSERT INTO `operate` VALUES (11, '权限管理', 'Permission', '', 1);
-INSERT INTO `operate` VALUES (12, '公文设计', 'AffairModule', '', 1);
-INSERT INTO `operate` VALUES (13, '公文管理', 'Affair', '', 1);
+INSERT INTO `operate` VALUES (10, '角色管理', 'role/show', '', 1);
+INSERT INTO `operate` VALUES (11, '权限管理', 'permission/show', '', 1);
+INSERT INTO `operate` VALUES (12, '公文设计', 'affair/design', '', 1);
+INSERT INTO `operate` VALUES (13, '公文管理', 'affair/manage', '', 1);
 INSERT INTO `operate` VALUES (14, '邮箱管理', 'Email', '', 1);
 INSERT INTO `operate` VALUES (15, '工作日志', 'Daily', '', 1);
 INSERT INTO `operate` VALUES (16, '行程安排', 'Schedule', '', 1);
@@ -250,12 +484,12 @@ INSERT INTO `operate` VALUES (27, '删除员工', 'UserDelete', '', 1);
 INSERT INTO `operate` VALUES (28, '新增部门', 'DepartmentAdd', '', 1);
 INSERT INTO `operate` VALUES (29, '修改部门', 'DepartmentUpdate', '', 1);
 INSERT INTO `operate` VALUES (30, '删除部门', 'DepartmentDelete', '', 1);
-INSERT INTO `operate` VALUES (31, '新增角色', 'RoleAdd', '', 1);
-INSERT INTO `operate` VALUES (32, '修改角色', 'RoleUpdate', '', 1);
-INSERT INTO `operate` VALUES (33, '删除角色', 'RoleDelete', '', 1);
-INSERT INTO `operate` VALUES (34, '新增公文模板', 'AffairModuleAdd', '', 1);
-INSERT INTO `operate` VALUES (35, '修改公文模板', 'AffairModuleUpdate', '', 1);
-INSERT INTO `operate` VALUES (36, '删除公文模板', 'AffairModuleDelete', '', 1);
+INSERT INTO `operate` VALUES (31, '新增角色', 'role/add', '', 1);
+INSERT INTO `operate` VALUES (32, '修改角色', 'role/edit', '', 1);
+INSERT INTO `operate` VALUES (33, '删除角色', 'role/delete', '', 1);
+INSERT INTO `operate` VALUES (34, '新增公文模板', 'affair/add', '', 1);
+INSERT INTO `operate` VALUES (35, '修改公文模板', 'affair/edit', '', 1);
+INSERT INTO `operate` VALUES (36, '删除公文模板', 'affair/delete', '', 1);
 INSERT INTO `operate` VALUES (37, '添加公告保存', 'NewsSave', '', 1);
 INSERT INTO `operate` VALUES (38, '修改公告保存', 'NewsAlter', '', 1);
 INSERT INTO `operate` VALUES (39, '添加考勤保存', 'RosterSave', '', 1);
@@ -264,10 +498,14 @@ INSERT INTO `operate` VALUES (41, '新增员工保存', 'UserSave', '', 1);
 INSERT INTO `operate` VALUES (42, '修改员工保存', 'UserAlter', '', 1);
 INSERT INTO `operate` VALUES (43, '新增部门保存', 'DepartmentSave', '', 1);
 INSERT INTO `operate` VALUES (44, '修改部门保存', 'DepartmentAlter', '', 1);
-INSERT INTO `operate` VALUES (45, '新增角色保存', 'RoleSave', '', 1);
-INSERT INTO `operate` VALUES (46, '修改角色保存', 'RoleAlter', '', 1);
-INSERT INTO `operate` VALUES (47, '新增公文模板保存', 'AffairModuleSave', '', 1);
-INSERT INTO `operate` VALUES (48, '修改公文模板保存', 'AffairModuleAlter', '', 1);
+INSERT INTO `operate` VALUES (45, '新增角色保存', 'role/doAdd', '', 1);
+INSERT INTO `operate` VALUES (46, '修改角色保存', 'affair/doEdit', '', 1);
+INSERT INTO `operate` VALUES (47, '新增公文模板保存', 'affair/doAdd', '', 1);
+INSERT INTO `operate` VALUES (48, '修改公文模板保存', 'affair/doEdit', '', 1);
+INSERT INTO `operate` VALUES (49, '新建消息', 'email/newemail', NULL, 1);
+INSERT INTO `operate` VALUES (50, '接收消息', 'email/email', NULL, 1);
+INSERT INTO `operate` VALUES (51, '发送消息', 'email/sentemail', NULL, 1);
+INSERT INTO `operate` VALUES (52, '删除消息', 'email/deletemail', NULL, 1);
 
 -- ----------------------------
 -- Table structure for operate_log
@@ -300,52 +538,59 @@ CREATE TABLE `organization`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
-  `permission_id` int(10) NOT NULL,
-  `permission_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `permission_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `pid` int(10) DEFAULT NULL,
+  `permission_id` int(10) NOT NULL AUTO_INCREMENT,
+  `permission_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `permission_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `p_id` int(10) DEFAULT NULL,
+  `permission_status` int(10) DEFAULT 1,
   PRIMARY KEY (`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES (1, '人力资源', '', NULL);
-INSERT INTO `permission` VALUES (2, '公文模块', '', NULL);
-INSERT INTO `permission` VALUES (3, '邮箱模块', '', NULL);
-INSERT INTO `permission` VALUES (4, '个人办公', '', NULL);
-INSERT INTO `permission` VALUES (5, '系统设置', '', NULL);
-INSERT INTO `permission` VALUES (6, '考勤管理', '', 1);
-INSERT INTO `permission` VALUES (7, '公告管理', '', 1);
-INSERT INTO `permission` VALUES (8, '员工管理', '', 1);
-INSERT INTO `permission` VALUES (9, '部门管理', '', 1);
-INSERT INTO `permission` VALUES (10, '角色管理', '', 1);
-INSERT INTO `permission` VALUES (11, '权限管理', '', 1);
-INSERT INTO `permission` VALUES (12, '公文设计', '', 2);
-INSERT INTO `permission` VALUES (13, '公文管理', '', 2);
-INSERT INTO `permission` VALUES (14, '邮箱管理', '', 3);
-INSERT INTO `permission` VALUES (15, '工作日志', '', 4);
-INSERT INTO `permission` VALUES (16, '行程安排', '', 4);
-INSERT INTO `permission` VALUES (17, '菜单管理', '', 5);
-INSERT INTO `permission` VALUES (18, '个人设置', '', 5);
-INSERT INTO `permission` VALUES (19, '添加公告', '', 7);
-INSERT INTO `permission` VALUES (20, '修改公告', '', 7);
-INSERT INTO `permission` VALUES (21, '删除公告', '', 7);
-INSERT INTO `permission` VALUES (22, '添加考勤', '', 6);
-INSERT INTO `permission` VALUES (23, '修改考勤', '', 6);
-INSERT INTO `permission` VALUES (24, '删除考勤', '', 6);
-INSERT INTO `permission` VALUES (25, '新增员工', '', 8);
-INSERT INTO `permission` VALUES (26, '修改员工', '', 8);
-INSERT INTO `permission` VALUES (27, '删除员工', '', 8);
-INSERT INTO `permission` VALUES (28, '新增部门', '', 9);
-INSERT INTO `permission` VALUES (29, '修改部门', '', 9);
-INSERT INTO `permission` VALUES (30, '删除部门', '', 9);
-INSERT INTO `permission` VALUES (31, '新增角色', '', 10);
-INSERT INTO `permission` VALUES (32, '修改角色', '', 10);
-INSERT INTO `permission` VALUES (33, '删除角色', '', 10);
-INSERT INTO `permission` VALUES (34, '新增公文模板', '', 12);
-INSERT INTO `permission` VALUES (35, '修改公文模板', '', 12);
-INSERT INTO `permission` VALUES (36, '删除公文模板', '', 12);
+INSERT INTO `permission` VALUES (1, '人力资源', '', NULL, 1);
+INSERT INTO `permission` VALUES (2, '公文模块', '', NULL, 1);
+INSERT INTO `permission` VALUES (3, '邮箱模块', '', NULL, 1);
+INSERT INTO `permission` VALUES (4, '个人办公', '', NULL, 1);
+INSERT INTO `permission` VALUES (5, '系统设置', '', NULL, 1);
+INSERT INTO `permission` VALUES (6, '考勤管理', '', 1, 1);
+INSERT INTO `permission` VALUES (7, '公告管理', '', 1, 1);
+INSERT INTO `permission` VALUES (8, '员工管理', '', 1, 1);
+INSERT INTO `permission` VALUES (9, '部门管理', '', 1, 1);
+INSERT INTO `permission` VALUES (10, '角色管理', '', 1, 1);
+INSERT INTO `permission` VALUES (11, '权限管理', '', 1, 1);
+INSERT INTO `permission` VALUES (12, '公文设计', '', 2, 1);
+INSERT INTO `permission` VALUES (13, '公文管理', '', 2, 1);
+INSERT INTO `permission` VALUES (14, '邮箱管理', '', 3, 1);
+INSERT INTO `permission` VALUES (15, '工作日志', '', 4, 1);
+INSERT INTO `permission` VALUES (16, '行程安排', '', 4, 1);
+INSERT INTO `permission` VALUES (17, '菜单管理', '', 5, 1);
+INSERT INTO `permission` VALUES (18, '个人设置', '', 5, 1);
+INSERT INTO `permission` VALUES (19, '添加公告', '', 7, 1);
+INSERT INTO `permission` VALUES (20, '修改公告', '', 7, 1);
+INSERT INTO `permission` VALUES (21, '删除公告', '', 7, 1);
+INSERT INTO `permission` VALUES (22, '添加考勤', '', 6, 1);
+INSERT INTO `permission` VALUES (23, '修改考勤', '', 6, 1);
+INSERT INTO `permission` VALUES (24, '删除考勤', '', 6, 1);
+INSERT INTO `permission` VALUES (25, '新增员工', '', 8, 1);
+INSERT INTO `permission` VALUES (26, '修改员工', '', 8, 1);
+INSERT INTO `permission` VALUES (27, '删除员工', '', 8, 1);
+INSERT INTO `permission` VALUES (28, '新增部门', '', 9, 1);
+INSERT INTO `permission` VALUES (29, '修改部门', '', 9, 1);
+INSERT INTO `permission` VALUES (30, '删除部门', '', 9, 1);
+INSERT INTO `permission` VALUES (31, '新增角色', '', 10, 1);
+INSERT INTO `permission` VALUES (32, '修改角色', '', 10, 1);
+INSERT INTO `permission` VALUES (33, '删除角色', '', 10, 1);
+INSERT INTO `permission` VALUES (34, '新增公文模板', '', 12, 1);
+INSERT INTO `permission` VALUES (35, '修改公文模板', '', 12, 1);
+INSERT INTO `permission` VALUES (36, '删除公文模板', '', 12, 1);
+INSERT INTO `permission` VALUES (37, '文档管理', NULL, NULL, 1);
+INSERT INTO `permission` VALUES (45, 'testPermission', NULL, 1, 2);
+INSERT INTO `permission` VALUES (47, '新建消息', NULL, 3, 1);
+INSERT INTO `permission` VALUES (48, '发送消息', NULL, 3, 1);
+INSERT INTO `permission` VALUES (49, '接收消息', NULL, 3, 1);
+INSERT INTO `permission` VALUES (50, '删除消息', NULL, 3, 1);
 
 -- ----------------------------
 -- Table structure for rel_organization_department
@@ -388,6 +633,12 @@ INSERT INTO `rel_permission_menu` VALUES (15, 15);
 INSERT INTO `rel_permission_menu` VALUES (16, 16);
 INSERT INTO `rel_permission_menu` VALUES (17, 17);
 INSERT INTO `rel_permission_menu` VALUES (18, 18);
+INSERT INTO `rel_permission_menu` VALUES (45, 1);
+INSERT INTO `rel_permission_menu` VALUES (19, 19);
+INSERT INTO `rel_permission_menu` VALUES (47, 21);
+INSERT INTO `rel_permission_menu` VALUES (48, 22);
+INSERT INTO `rel_permission_menu` VALUES (49, 23);
+INSERT INTO `rel_permission_menu` VALUES (50, 24);
 
 -- ----------------------------
 -- Table structure for rel_permission_operate
@@ -446,6 +697,11 @@ INSERT INTO `rel_permission_operate` VALUES (31, 45);
 INSERT INTO `rel_permission_operate` VALUES (32, 46);
 INSERT INTO `rel_permission_operate` VALUES (34, 47);
 INSERT INTO `rel_permission_operate` VALUES (35, 48);
+INSERT INTO `rel_permission_operate` VALUES (45, 6);
+INSERT INTO `rel_permission_operate` VALUES (47, 49);
+INSERT INTO `rel_permission_operate` VALUES (48, 50);
+INSERT INTO `rel_permission_operate` VALUES (49, 51);
+INSERT INTO `rel_permission_operate` VALUES (50, 52);
 
 -- ----------------------------
 -- Table structure for rel_role_permission
@@ -490,7 +746,6 @@ INSERT INTO `rel_role_permission` VALUES (2, 26);
 INSERT INTO `rel_role_permission` VALUES (2, 27);
 INSERT INTO `rel_role_permission` VALUES (2, 28);
 INSERT INTO `rel_role_permission` VALUES (2, 29);
-INSERT INTO `rel_role_permission` VALUES (2, 30);
 INSERT INTO `rel_role_permission` VALUES (2, 31);
 INSERT INTO `rel_role_permission` VALUES (2, 32);
 INSERT INTO `rel_role_permission` VALUES (2, 33);
@@ -589,7 +844,7 @@ INSERT INTO `rel_role_permission` VALUES (8, 26);
 INSERT INTO `rel_role_permission` VALUES (8, 27);
 INSERT INTO `rel_role_permission` VALUES (8, 28);
 INSERT INTO `rel_role_permission` VALUES (8, 29);
-INSERT INTO `rel_role_permission` VALUES (8, 30);
+INSERT INTO `rel_role_permission` VALUES (2, 30);
 INSERT INTO `rel_role_permission` VALUES (8, 31);
 INSERT INTO `rel_role_permission` VALUES (8, 32);
 INSERT INTO `rel_role_permission` VALUES (8, 33);
@@ -604,7 +859,12 @@ INSERT INTO `rel_role_permission` VALUES (13, 13);
 INSERT INTO `rel_role_permission` VALUES (13, 14);
 INSERT INTO `rel_role_permission` VALUES (13, 15);
 INSERT INTO `rel_role_permission` VALUES (13, 16);
-INSERT INTO `rel_role_permission` VALUES (13, 18);
+INSERT INTO `rel_role_permission` VALUES (3, 30);
+INSERT INTO `rel_role_permission` VALUES (13, 17);
+INSERT INTO `rel_role_permission` VALUES (2, 47);
+INSERT INTO `rel_role_permission` VALUES (2, 48);
+INSERT INTO `rel_role_permission` VALUES (2, 49);
+INSERT INTO `rel_role_permission` VALUES (2, 50);
 
 -- ----------------------------
 -- Table structure for rel_user_role
@@ -652,44 +912,70 @@ INSERT INTO `rel_user_role` VALUES (25, 15);
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
-  `role_id` int(10) NOT NULL,
+  `role_id` int(10) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `department_id` int(10) DEFAULT NULL,
+  `role_status` int(10) DEFAULT 1,
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES (2, '超级管理员', NULL);
-INSERT INTO `role` VALUES (3, '总经理', 1);
-INSERT INTO `role` VALUES (4, '副总经理', 1);
-INSERT INTO `role` VALUES (5, '财务经理', 4);
-INSERT INTO `role` VALUES (6, '出纳', 4);
-INSERT INTO `role` VALUES (7, '会计', 4);
-INSERT INTO `role` VALUES (8, '人力资源经理', 5);
-INSERT INTO `role` VALUES (9, '招聘主管', 5);
-INSERT INTO `role` VALUES (10, '薪酬主管', 5);
-INSERT INTO `role` VALUES (11, '招聘专员', 5);
-INSERT INTO `role` VALUES (12, '薪酬专员', 5);
-INSERT INTO `role` VALUES (13, '行政经理', 6);
-INSERT INTO `role` VALUES (14, '行政专员', 6);
-INSERT INTO `role` VALUES (15, '前台', 6);
-INSERT INTO `role` VALUES (16, '法务', 6);
-INSERT INTO `role` VALUES (17, '市场经理', 7);
-INSERT INTO `role` VALUES (18, '网络推广', 7);
-INSERT INTO `role` VALUES (19, '广告宣传', 7);
-INSERT INTO `role` VALUES (20, '销售经理', 8);
-INSERT INTO `role` VALUES (21, '电话销售', 8);
-INSERT INTO `role` VALUES (22, '产品顾问', 8);
-INSERT INTO `role` VALUES (23, '就业经理', 9);
-INSERT INTO `role` VALUES (24, '就业主管', 9);
-INSERT INTO `role` VALUES (25, '就业顾问', 9);
-INSERT INTO `role` VALUES (26, '教学经理', 10);
-INSERT INTO `role` VALUES (27, '讲师', 10);
-INSERT INTO `role` VALUES (28, '班主任', 11);
-INSERT INTO `role` VALUES (29, '分管业务副总I-王琰', 2);
-INSERT INTO `role` VALUES (30, '分管业务副总II-余笑', 3);
+INSERT INTO `role` VALUES (2, '超级管理员', NULL, 1);
+INSERT INTO `role` VALUES (3, '总经理', 1, 1);
+INSERT INTO `role` VALUES (4, '副总经理', 1, 1);
+INSERT INTO `role` VALUES (5, '财务经理', 4, 1);
+INSERT INTO `role` VALUES (6, '出纳', 4, 1);
+INSERT INTO `role` VALUES (7, '会计', 4, 1);
+INSERT INTO `role` VALUES (8, '人力资源经理', 5, 1);
+INSERT INTO `role` VALUES (9, '招聘主管', 5, 1);
+INSERT INTO `role` VALUES (10, '薪酬主管', 5, 1);
+INSERT INTO `role` VALUES (11, '招聘专员', 5, 1);
+INSERT INTO `role` VALUES (12, '薪酬专员', 5, 1);
+INSERT INTO `role` VALUES (13, '行政经理', 6, 1);
+INSERT INTO `role` VALUES (14, '行政专员', 6, 1);
+INSERT INTO `role` VALUES (15, '前台', 6, 1);
+INSERT INTO `role` VALUES (16, '法务', 6, 1);
+INSERT INTO `role` VALUES (17, '市场经理', 7, 1);
+INSERT INTO `role` VALUES (18, '网络推广', 7, 1);
+INSERT INTO `role` VALUES (19, '广告宣传', 7, 1);
+INSERT INTO `role` VALUES (20, '销售经理', 8, 1);
+INSERT INTO `role` VALUES (21, '电话销售', 8, 1);
+INSERT INTO `role` VALUES (22, '产品顾问', 8, 1);
+INSERT INTO `role` VALUES (23, '就业经理', 9, 1);
+INSERT INTO `role` VALUES (24, '就业主管', 9, 1);
+INSERT INTO `role` VALUES (25, '就业顾问', 9, 1);
+INSERT INTO `role` VALUES (26, '教学经理', 10, 1);
+INSERT INTO `role` VALUES (27, '讲师', 10, 1);
+INSERT INTO `role` VALUES (28, '班主任', 11, 1);
+INSERT INTO `role` VALUES (29, '分管业务副总I-王琰', 2, 1);
+INSERT INTO `role` VALUES (30, '分管业务副总II-余笑', 3, 1);
+INSERT INTO `role` VALUES (31, 'testRole', NULL, 1);
+INSERT INTO `role` VALUES (34, 'testRole2', NULL, 1);
+
+-- ----------------------------
+-- Table structure for sender_reciver
+-- ----------------------------
+DROP TABLE IF EXISTS `sender_reciver`;
+CREATE TABLE `sender_reciver`  (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `message_id` int(10) DEFAULT NULL,
+  `sender_id` int(10) DEFAULT NULL,
+  `reciver_id` int(10) DEFAULT NULL,
+  `status` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sender_reciver
+-- ----------------------------
+INSERT INTO `sender_reciver` VALUES (1, 1, 2, 4, 1);
+INSERT INTO `sender_reciver` VALUES (2, 1, 2, 6, 1);
+INSERT INTO `sender_reciver` VALUES (3, 2, 2, 21, 1);
+INSERT INTO `sender_reciver` VALUES (4, 2, 2, 22, 1);
+INSERT INTO `sender_reciver` VALUES (5, 2, 2, 4, 1);
+INSERT INTO `sender_reciver` VALUES (6, 2, 2, 2, 1);
 
 -- ----------------------------
 -- Table structure for sign_log
@@ -702,6 +988,22 @@ CREATE TABLE `sign_log`  (
   `ip_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`sign_log_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for status
+-- ----------------------------
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status`  (
+  `status_id` int(10) NOT NULL,
+  `status_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`status_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of status
+-- ----------------------------
+INSERT INTO `status` VALUES (1, '正常使用');
+INSERT INTO `status` VALUES (2, '已注销');
 
 -- ----------------------------
 -- Table structure for user
@@ -722,31 +1024,31 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '21232F297A57A5A743894A0E4A801FC3', 'admin', NULL, NULL, 1);
-INSERT INTO `user` VALUES (2, 'maxuemei', '202CB962AC59075B964B07152D234B70', '马雪梅', NULL, 11, 1);
-INSERT INTO `user` VALUES (3, 'nixiaoyu', '202CB962AC59075B964B07152D234B70', '倪笑宇', NULL, 11, 1);
-INSERT INTO `user` VALUES (4, 'zhangming', '202CB962AC59075B964B07152D234B70', '张明', NULL, 11, 1);
-INSERT INTO `user` VALUES (5, 'huofang', '202CB962AC59075B964B07152D234B70', '霍芳', NULL, 7, 1);
-INSERT INTO `user` VALUES (6, 'sunlirui', '202CB962AC59075B964B07152D234B70', '孙丽睿', NULL, 8, 1);
-INSERT INTO `user` VALUES (7, 'yuxiao', '202CB962AC59075B964B07152D234B70', '余笑', NULL, 11, 1);
-INSERT INTO `user` VALUES (8, 'wangyan', '202CB962AC59075B964B07152D234B70', '王琰', NULL, 11, 1);
-INSERT INTO `user` VALUES (9, 'zhoufeng', '202CB962AC59075B964B07152D234B70', '周峰', NULL, 11, 1);
-INSERT INTO `user` VALUES (10, 'wangwei', '202CB962AC59075B964B07152D234B70', '王威', NULL, 11, 1);
-INSERT INTO `user` VALUES (11, 'libo', '202CB962AC59075B964B07152D234B70', '李波', NULL, NULL, 1);
-INSERT INTO `user` VALUES (12, 'zhuminghua', '202CB962AC59075B964B07152D234B70', '朱明华', NULL, 2, 1);
-INSERT INTO `user` VALUES (13, 'kangshanshan', '202CB962AC59075B964B07152D234B70', '康珊珊', NULL, 3, 1);
-INSERT INTO `user` VALUES (14, 'xujiayao', '202CB962AC59075B964B07152D234B70', '徐佳瑶', NULL, 13, 1);
-INSERT INTO `user` VALUES (15, 'lipingran', '202CB962AC59075B964B07152D234B70', '李品然', NULL, 5, 1);
-INSERT INTO `user` VALUES (16, 'wanglixia', '202CB962AC59075B964B07152D234B70', '王丽霞', NULL, 5, 1);
-INSERT INTO `user` VALUES (17, 'donghuanhuan', '202CB962AC59075B964B07152D234B70', '董欢欢', NULL, 6, 1);
-INSERT INTO `user` VALUES (18, 'zhuqiong', '202CB962AC59075B964B07152D234B70', '朱琼', NULL, 17, 1);
-INSERT INTO `user` VALUES (19, 'gongweibin', '202CB962AC59075B964B07152D234B70', '龚玮斌', NULL, 7, 1);
-INSERT INTO `user` VALUES (20, 'fengrui', '202CB962AC59075B964B07152D234B70', '冯瑞', NULL, 19, 1);
-INSERT INTO `user` VALUES (21, 'chenchen', '202CB962AC59075B964B07152D234B70', '陈晨', NULL, 19, 1);
-INSERT INTO `user` VALUES (22, 'zhaokai', '202CB962AC59075B964B07152D234B70', '赵凯', NULL, 19, 1);
-INSERT INTO `user` VALUES (23, 'caigenrong', '202CB962AC59075B964B07152D234B70', '蔡根荣', NULL, 19, 1);
-INSERT INTO `user` VALUES (24, 'wenshuqing', '202CB962AC59075B964B07152D234B70', '闻书晴', NULL, 19, 1);
-INSERT INTO `user` VALUES (25, 'chengfengjiao', '202CB962AC59075B964B07152D234B70', '陈凤娇', NULL, 3, 1);
+INSERT INTO `user` VALUES (1, 'admin', '21232F297A57A5A743894A0E4A801FC3', 'admin', '1.jpg', NULL, 1);
+INSERT INTO `user` VALUES (2, 'maxuemei', '202CB962AC59075B964B07152D234B70', '马雪梅', '2.jpg', 11, 1);
+INSERT INTO `user` VALUES (3, 'nixiaoyu', '202CB962AC59075B964B07152D234B70', '倪笑宇', '3.jpg', 11, 1);
+INSERT INTO `user` VALUES (4, 'zhangming', '202CB962AC59075B964B07152D234B70', '张明', '4.jpg', 11, 1);
+INSERT INTO `user` VALUES (5, 'huofang', '202CB962AC59075B964B07152D234B70', '霍芳', '5.jpg', 7, 1);
+INSERT INTO `user` VALUES (6, 'sunlirui', '202CB962AC59075B964B07152D234B70', '孙丽睿', '6.jpg', 8, 1);
+INSERT INTO `user` VALUES (7, 'yuxiao', '202CB962AC59075B964B07152D234B70', '余笑', '7.jpg', 11, 1);
+INSERT INTO `user` VALUES (8, 'wangyan', '202CB962AC59075B964B07152D234B70', '王琰', '8.jpg', 11, 1);
+INSERT INTO `user` VALUES (9, 'zhoufeng', '202CB962AC59075B964B07152D234B70', '周峰', '9.jpg', 11, 1);
+INSERT INTO `user` VALUES (10, 'wangwei', '202CB962AC59075B964B07152D234B70', '王威', '10.jpg', 11, 1);
+INSERT INTO `user` VALUES (11, 'libo', '202CB962AC59075B964B07152D234B70', '李波', '11.jpg', NULL, 1);
+INSERT INTO `user` VALUES (12, 'zhuminghua', '202CB962AC59075B964B07152D234B70', '朱明华', '12.jpg', 2, 1);
+INSERT INTO `user` VALUES (13, 'kangshanshan', '202CB962AC59075B964B07152D234B70', '康珊珊', '13.jpg', 3, 1);
+INSERT INTO `user` VALUES (14, 'xujiayao', '202CB962AC59075B964B07152D234B70', '徐佳瑶', '14.jpg', 13, 1);
+INSERT INTO `user` VALUES (15, 'lipingran', '202CB962AC59075B964B07152D234B70', '李品然', '15.jpg', 5, 1);
+INSERT INTO `user` VALUES (16, 'wanglixia', '202CB962AC59075B964B07152D234B70', '王丽霞', '16.jpg', 5, 1);
+INSERT INTO `user` VALUES (17, 'donghuanhuan', '202CB962AC59075B964B07152D234B70', '董欢欢', '17.jpg', 6, 1);
+INSERT INTO `user` VALUES (18, 'zhuqiong', '202CB962AC59075B964B07152D234B70', '朱琼', '18.jpg', 17, 1);
+INSERT INTO `user` VALUES (19, 'gongweibin', '202CB962AC59075B964B07152D234B70', '龚玮斌', '19.jpg', 7, 1);
+INSERT INTO `user` VALUES (20, 'fengrui', '202CB962AC59075B964B07152D234B70', '冯瑞', '20.jpg', 19, 1);
+INSERT INTO `user` VALUES (21, 'chenchen', '202CB962AC59075B964B07152D234B70', '陈晨', '21.jpg', 19, 1);
+INSERT INTO `user` VALUES (22, 'zhaokai', '202CB962AC59075B964B07152D234B70', '赵凯', '22.jpg', 19, 1);
+INSERT INTO `user` VALUES (23, 'caigenrong', '202CB962AC59075B964B07152D234B70', '蔡根荣', '23.jpg', 19, 1);
+INSERT INTO `user` VALUES (24, 'wenshuqing', '202CB962AC59075B964B07152D234B70', '闻书晴', '24.jpg', 19, 1);
+INSERT INTO `user` VALUES (25, 'chengfengjiao', '202CB962AC59075B964B07152D234B70', '陈凤娇', '25.jpg', 3, 1);
 
 -- ----------------------------
 -- Table structure for user_info

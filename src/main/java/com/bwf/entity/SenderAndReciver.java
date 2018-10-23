@@ -1,6 +1,9 @@
 package com.bwf.entity;
 
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> bqr
 
 public class SenderAndReciver {
 	
@@ -8,6 +11,7 @@ public class SenderAndReciver {
 	private Integer messageId;
 	private Integer senderId;
 	private Integer reciverId;
+<<<<<<< HEAD
 	
 	private List<Message> messages;
 	private List<User> users;
@@ -18,6 +22,36 @@ public class SenderAndReciver {
 				+ reciverId + ", messages=" + messages + ", users=" + users + "]";
 	}
 	
+=======
+	private Integer status;
+	
+	private Message message;
+	private User user;
+	
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+
+	@Override
+	public String toString() {
+		return "SenderAndReciver [id=" + id + ", messageId=" + messageId + ", senderId=" + senderId + ", reciverId="
+				+ reciverId + ", status=" + status + ", message=" + message + ", user=" + user + "]";
+	}
+
+>>>>>>> bqr
 	public Integer getId() {
 		return id;
 	}
@@ -42,6 +76,7 @@ public class SenderAndReciver {
 	public void setReciverId(Integer reciverId) {
 		this.reciverId = reciverId;
 	}
+<<<<<<< HEAD
 	public List<Message> getMessages() {
 		return messages;
 	}
@@ -56,4 +91,16 @@ public class SenderAndReciver {
 	}
 	
 		
+=======
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+>>>>>>> bqr
 }

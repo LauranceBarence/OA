@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>view</title>
+<link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
+<link rel="stylesheet" href="${rc.contextPath}/css/animate.min.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${rc.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/js/wow.js"></script>
+<link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
+<script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.btn-back').click(function(){
+			location.href = "${rc.contextPath}/permission/show";
+		});	
+	});
+</script>
+</head>
+<body>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<button type="button" class="btn btn-default btn-back btn-sm">
+				返 回</button>
+			&nbsp;&nbsp;添加权限
+		</div>
+		<div class="panel-body">
+
+				<input type="text" name="permissionId" class="form-control hidden"
+					placeholder="${currentPermission.permissionId}" />
+				<!-- 权限名 -->
+				<input type="text" name="permissionName" class="form-control"
+					placeholder="${currentPermission.permissionName}" readonly="readonly"/> <hr />
+
+				<!-- 新权限操作设置 -->
+				<div id="alloperates">
+					<label>包含操作</label><br/>
+					<#if operates??&&(operates?size>0)>
+						<#list operates as o1> 
+							<#if o1.pId!=null>
+										<input type="checkbox" name="operateId" value="${o1.operateId}" checked="checked" disabled="disabled"/>${o1.operateName}&nbsp;&nbsp;&nbsp;
+									<#if (o1.operateId-5)%10=0>
+										<br/>
+									</#if>
+							</#if> 
+						</#list>
+					<#else>
+						没有相关权限！
+					</#if>
+				</div>
+				<hr/>
+				<!-- 新权限菜单设置 -->
+				<div id="allmenus">
+					<label>包含菜单</label><br/>
+					<#if menus??&&(menus?size>0)>
+					<#list menus as m1>
+						<#if m1.menuId!=null>
+							<input type="checkbox" name="menuId" value="${m1.menuId}" checked="checked" disabled="disabled"/>${m1.menuName}</br> &nbsp;&nbsp;&nbsp;&nbsp;
+						<#else>
+							没有相关菜单
+						</#if>
+					</#list>
+					<#else>
+						没有相关菜单
+					</#if>
+				</div>
+				<hr/>
+				
+				<!-- 选择权限上级 -->
+				<select class="form-control" name="pId" disabled="disabled">
+					<option value="-1">--无上级权限--</option>
+					<#list permissions as p>
+						<#if currentPermission.pId = p.permissionId>
+						<option value="${p.permissionId}" selected="selected">${p.permissionName}</option>
+						<#else>
+						<option value="${p.permissionId}">${p.permissionName}</option>
+						</#if>
+					</#list>
+				</select>
+				<hr/>
+				
+				<button type="button" class="btn btn-danger form-control btn-back">
+					返回</button>
+
+		</div>
+	</div>
+
+	<div style="height: 80px;"></div>
+</body>
+</html>
