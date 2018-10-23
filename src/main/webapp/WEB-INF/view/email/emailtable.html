@@ -12,6 +12,16 @@
 <link rel="stylesheet" href="${rc.contextPath}/css/global.css" />
 <script type="text/javascript" src="${rc.contextPath}/js/global.js"></script>
 <script type="text/javascript" src="${rc.contextPath}/js/Calendar3.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.seebut').click(function() {
+		var id = $(this).prev().val();
+		location.href='${rc.contextPath}/showmessage/'+id;
+	});
+}); 
+	 
+
+</script>
 </head>
 <body>
 
@@ -62,11 +72,11 @@
 							<td width="50px" align="center" class="td-checkbox"><input
 								type="checkbox" name="id" /></td>
 							<td class="text-center">${rm.messageTitle}</td>
-						
-							<td width="120px" class="hidden-xs text-center">${rm.senderId}</td>
+							<td width="120px" class="hidden-xs text-center">${rm.nickname} </td>
 							<td width="120px" class="hidden-xs text-center">${rm.messageTime}</td>
 							<td width="120px">
 								<span class="btn-group btn-group-xs text-center">
+									<input type="hidden" value="${m.messageId}">
 									<button type="button" class="btn btn-default">查看</button>
 									<button type="button" class="btn btn-default">回复</button>
 									<button type="button" class="btn btn-danger">删除</button>
@@ -110,13 +120,14 @@
 
 				</div>
 				<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5">
-					<div class="input-group input-group-sm">
+				<!-- 	<div class="input-group input-group-sm">
 						<input type="text" class="form-control" placeholder="7" /> 
 						<span class="input-group-addon"> / 60 页 </span>
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-darkgreen">Go</button>
 						</div>
 					</div>
+					 -->
 				</div>
 			</div>
 

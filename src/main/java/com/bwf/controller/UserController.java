@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bwf.entity.Menu;
 import com.bwf.entity.User;
 import com.bwf.service.IUserService;
 
@@ -35,6 +36,11 @@ public class UserController {
 		User loginUser = userService.doLogin(user);
 
 		if (loginUser != null) {
+			List<Menu> menus = loginUser.getMenus();
+			
+			for(Menu m:menus){
+				System.out.println(m);
+			}
 			session.setAttribute("currentUser", loginUser);
 			return "redirect:/index";
 		} else {

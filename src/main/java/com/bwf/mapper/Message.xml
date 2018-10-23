@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bwf.dao.MessageMapper">
+	<resultMap type="com.bwf.entity.Message" id="message">
+		<id column="message_id" property="messageId" />
+		<result column="reciver" property="reciver" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="accessory" property="accessory" />
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.Message" id="messageWithUser">
+		<id column="message_id" property="messageId" />
+		<result column="reciver" property="reciver" />
+		<result column="message_title" property="messageTitle" />
+		<result column="message_content" property="messageContent" />
+		<result column="message_time" property="messageTime" />
+		<result column="accessory" property="accessory" />
+		
+		<collection property="users" ofType="com.bwf.entity.User" resultMap="com.bwf.dao.UserMapper.simplenessuser">
+		</collection>
+	</resultMap>
+	
+	
+	
+	
+	<!-- 发送信息 -->
+	<insert id="addemail" parameterType="com.bwf.entity.Message" useGeneratedKeys="true" keyProperty="messageId">
+		INSERT INTO `message` VALUES (null,#{reciver},#{messageTitle},#{messageContent},#{messageTime},#{accessory})
+	</insert>
+
+	<!-- 读取接收的 -->
+	<select id="getMessageByUserId" parameterType="int" resultMap="messageWithUser">
+		select * FROM sender_reciver as sr 
+						LEFT OUTER JOIN message as m 
+							on sr.message_id = m.message_id 
+						LEFT OUTER JOIN user as u 
+							on  sr.sender_id = u.user_id 
+						WHERE sr.reciver_id= #{id} 
+	</select>
+	
+
+	<!-- 读取发送的 -->
+	<select id="sentMessageByUserId" parameterType="int" resultMap="messageWithUser">
+		select * FROM sender_reciver as sr 
+						LEFT OUTER JOIN message as m 
+							on sr.message_id = m.message_id 
+						LEFT OUTER JOIN user as u 
+							on  sr.sender_id = u.user_id 
+						WHERE sr.sender_id= #{id} 
+	</select>
+
+	<!-- 展示 -->
+	<select id="showmessage" parameterType="int" resultMap="messageWithUser">
+		select * FROM sender_reciver as sr 
+						LEFT OUTER JOIN message as m 
+							on sr.message_id = m.message_id 
+						LEFT OUTER JOIN user as u 
+							on  sr.sender_id = u.user_id 
+						WHERE sr.message_id= #{id} 
+	</select>
+
+	<!-- 接收 
+	<select id="getReciveMessage"  parameterType="int" resultMap="message">
+		SELECT * from message where reciver_id LIKE CONCAT(CONCAT('%',#{address},'%'))
+	</select>
+	-->
+	<!-- 删除 -->
+	
+	
+	<!-- 彻底删除 -->
+	
+</mapper>
