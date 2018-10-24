@@ -39,7 +39,7 @@
 	
 =======
 		<result column="avatar" property="avater" />
-		<result column="leader_id" property="leaderId"/>
+		<result column="leader_id" property="leaderId" />
 	</resultMap>
 
 	<resultMap type="com.bwf.entity.User" id="userWithRole">
@@ -48,8 +48,9 @@
 		<result column="password" property="password" />
 		<result column="nickname" property="nickname" />
 		<result column="avatar" property="avater" />
-		<result column="leader_id" property="leaderId"/>
-		<association property="role" javaType="com.bwf.entity.Role" resultMap="com.bwf.dao.RoleMapper.role"></association>
+		<result column="leader_id" property="leaderId" />
+		<association property="role" javaType="com.bwf.entity.Role"
+			resultMap="com.bwf.dao.RoleMapper.role"></association>
 	</resultMap>
 	<resultMap type="com.bwf.entity.User" id="fullUser">
 		<id column="user_id" property="userId" />
@@ -57,14 +58,39 @@
 		<result column="password" property="password" />
 		<result column="nickname" property="nickname" />
 		<result column="avatar" property="avater" />
-		<result column="leader_id" property="leaderId"/>
-		<association property="leader" javaType="com.bwf.entity.User" column="leader_id" select = "getLeader"></association>
+		<result column="leader_id" property="leaderId" />
+		<association property="leader" javaType="com.bwf.entity.User"
+			column="leader_id" select="getLeader"></association>
 		<collection property="menus" ofType="com.bwf.entity.Menu"
 			resultMap="com.bwf.dao.MenuMapper.fullMenu"></collection>
 		<collection property="operates" ofType="com.bwf.entity.Operate"
 			resultMap="com.bwf.dao.OperateMapper.fullOperate"></collection>
 	</resultMap>
 
+	<resultMap type="com.bwf.entity.User" id="userWithLeader">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="avatar" property="avater" />
+		<result column="leader_id" property="leaderId" />
+		<association property="leader" javaType="com.bwf.entity.User"
+			column="leader_id" select="getLeader"></association>
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.User" id="simplenessuser">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+	</resultMap>
+	
+	<resultMap type="com.bwf.entity.User" id="userWithMessage">
+		<id column="user_id" property="userId" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+		<collection property="userWithMesage" ofType="com.bwf.entity.Message" resultMap="com.bwf.dao.MessageMapper.message"></collection>
+	</resultMap>
+	
 	<select id="getUserbyNameandPassword" parameterType="com.bwf.entity.User"
 		resultMap="baseUser">
 		select * from `user` where username=#{username} and
@@ -80,36 +106,51 @@
 	<select id="getFullUser" parameterType="int" resultMap="fullUser">
 		select
 		`user`.*,menu.*,operate.* from `user`
-		LEFT OUTER JOIN rel_user_role on `user`.user_id = rel_user_role.user_id
-		LEFT OUTER JOIN role on rel_user_role.role_id=role.role_id
-		LEFT OUTER JOIN rel_role_permission on role.role_id =
+		LEFT OUTER JOIN rel_user_role on
+		`user`.user_id = rel_user_role.user_id
+		LEFT OUTER JOIN role on
+		rel_user_role.role_id=role.role_id
+		LEFT OUTER JOIN rel_role_permission
+		on role.role_id =
 		rel_role_permission.role_id
-		LEFT OUTER JOIN permission on rel_role_permission.permission_id =
+		LEFT OUTER JOIN permission
+		on rel_role_permission.permission_id =
 		permission.permission_id
-		LEFT OUTER JOIN rel_permission_menu on permission.permission_id =
+		LEFT
+		OUTER JOIN rel_permission_menu on permission.permission_id =
 		rel_permission_menu.permission_id
-		LEFT OUTER JOIN menu on rel_permission_menu.menu_id = menu.menu_id
-		LEFT OUTER JOIN rel_permission_operate on permission.permission_id =
+		LEFT OUTER JOIN menu on
+		rel_permission_menu.menu_id = menu.menu_id
+		LEFT OUTER JOIN
+		rel_permission_operate on permission.permission_id =
 		rel_permission_operate.permission_id
-		LEFT OUTER JOIN operate on rel_permission_operate.operate_id =
+		LEFT OUTER JOIN operate on
+		rel_permission_operate.operate_id =
 		operate.operate_id
-		where `user`.user_id = #{userId} and `user`.status=1
+		where
+		`user`.user_id = #{userId} and `user`.status=1
 	</select>
-	
-	<select id="getLeader" parameterType="com.bwf.entity.User" resultMap = "fullUser">
-		select * from user where user_id = #{user.leaderId} and `user`.status=1
+
+	<select id="getLeader" parameterType="com.bwf.entity.User"
+		resultMap="fullUser">
+		select * from user where user_id = #{user.leaderId} and
+		`user`.status=1
 	</select>
-	
+
 	<insert id="addUser" parameterType="com.bwf.entity.User">
 		insert into `user` values
 		(null,#{username},#{password},#{nickname},#{avater},#{leader.userId},default)
 	</insert>
-	
+
 	<select id="getUsersWithRole" resultMap="userWithRole">
-		select user.*,role.* from user
-		left outer join rel_user_role on user.user_id = rel_user_role.user_id
-		left outer join role on rel_user_role.role_id = role.role_id
+		select user.*,role.*
+		from user
+		left outer join rel_user_role on user.user_id =
+		rel_user_role.user_id
+		left outer join role on rel_user_role.role_id =
+		role.role_id
 	</select>
+<<<<<<< HEAD
 	
 	<select id="getAllUsers" resultMap = "baseUser">
    		select * from `user` where status=1
@@ -164,5 +205,58 @@
     	    leader_id = #{leader.userId} 
     	where user_id = #{userId}
     </update>
+>>>>>>> bqr
+=======
+
+	<select id="getAllUsers" resultMap="baseUser">
+		select * from `user` where status=1
+	</select>
+
+	<select id="getAllUserCount" resultType="int">
+		select count(*) from `user`
+	</select>
+
+	<select id="getAllUsersByPage" parameterType="int" resultMap="userWithLeader">
+		select * from `user` where status = 1 limit #{p}, #{pageSize}
+	</select>
+
+	<update id="delete" parameterType="int">
+		update `user` set status = 2 where user_id = #{id}
+	</update>
+	<!-- 删除多个user -->
+	<!-- <select id="deleteMulti"> delete from `user` where user_id in <foreach 
+		collection="idArr" open="(" close=")" separator="," item="id"> #{id} </foreach> 
+		</select> -->
+	<update id="deleteMulti">
+		update `user` set status = 2 where user_id in
+		<foreach collection="idArr" open="(" close=")" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.bwf.entity.User">
+		update `user` set
+		username = #{username} ,
+		password = #{password} ,
+		nickname = #{nickname} ,
+		leader_id = #{leaderId}
+		where user_id = #{userId}
+	</update>
+
+	<update id="updateWithPassword" parameterType="com.bwf.entity.User">
+		update `user` set
+		password = '456' ,
+		nickname = #{nickname} ,
+		leader_id = #{leader.userId}
+		where user_id = #{userId}
+	</update>
+
+	<update id="updateWithoutPassword" parameterType="com.bwf.entity.User">
+		update `user` set
+		nickname = #{nickname} ,
+		leader_id = #{leader.userId}
+		where user_id = #{userId}
+	</update>
 >>>>>>> bqr
 </mapper>
