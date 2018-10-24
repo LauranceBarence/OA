@@ -3,19 +3,6 @@ package com.bwf.service;
 import java.util.List;
 
 import com.bwf.entity.Message;
-<<<<<<< HEAD
-import com.bwf.entity.User;
-
-public interface IMessageService {
-
-	List<Message> getMessageByUserId(Integer userId);
-
-	void addemail(Message message);
-
-	List<Message> sentMessageByUserId(Integer userId);
-
-	List<User> getReciversByMessageId(Integer[] ids);
-=======
 
 public interface IMessageService {
 	//读取接收的信息
@@ -31,6 +18,5 @@ public interface IMessageService {
 
 
 	
->>>>>>> bqr
 
 }

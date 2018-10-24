@@ -2,13 +2,6 @@ package com.bwf.dao;
 
 import java.util.List;
 
-<<<<<<< HEAD
-import com.bwf.entity.User;
-
-public interface UserMapper {
-	
-	User getUserBy (User user);
-=======
 import org.apache.ibatis.annotations.Param;
 
 import com.bwf.entity.User;
@@ -46,8 +39,5 @@ public interface UserMapper {
 
 	void delete(Integer id);
 
->>>>>>> bqr
 
-	List<User> getAllUsers();
-	
 }

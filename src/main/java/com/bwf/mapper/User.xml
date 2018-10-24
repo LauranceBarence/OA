@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.bwf.dao.UserMapper">
-	
-	<resultMap type="com.bwf.entity.User" id="nuser">
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -14,30 +5,10 @@
 <!-- 对应 dao 中的 接口 -->
 <mapper namespace="com.bwf.dao.UserMapper">
 	<resultMap type="com.bwf.entity.User" id="baseUser">
->>>>>>> bqr
 		<id column="user_id" property="userId" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
 		<result column="nickname" property="nickname" />
-<<<<<<< HEAD
-		<result column="avater" property="avater" />
-	</resultMap>
-	
-	<resultMap type="com.bwf.entity.User" id="simplenessuser">
-		<id column="user_id" property="userId" />
-		<result column="username" property="username" />
-		<result column="nickname" property="nickname" />
-	</resultMap>
-	
-	<select id="getUserBy" parameterType="com.bwf.entity.User" resultMap="nuser">
-		select * from `user` where username = #{username} and password = #{password}
-	</select>
-	
-	<select id="getAllUsers" resultMap="nuser">
-		select * from `user` where user_id !=1
-	</select>
-	
-=======
 		<result column="avatar" property="avater" />
 		<result column="leader_id" property="leaderId" />
 	</resultMap>
@@ -150,63 +121,6 @@
 		left outer join role on rel_user_role.role_id =
 		role.role_id
 	</select>
-<<<<<<< HEAD
-	
-	<select id="getAllUsers" resultMap = "baseUser">
-   		select * from `user` where status=1
-   	</select>
-   	
-   	<select id="getAllUserCount" resultType = "int">
-   		select count(*) from `user`
-   	</select>
-   	
-   	<select id="getAllUsersByPage" parameterType="int" resultMap = "baseUser">
-   		select * from `user`  where status = 1 limit #{p}, #{pageSize}
-   	</select>
-   	
-   	<update id="delete" parameterType="int">
-    	update `user` set status = 2 where user_id = #{id}
-    </update>
-    <!-- 删除多个user -->
-    <!-- 
-    <select id="deleteMulti">
-    	delete from `user` where user_id in
-    	<foreach collection="idArr" open="(" close=")" separator="," item="id">
-    		#{id}
-    	</foreach>
-    </select> -->
-    <update id="deleteMulti">
-    	update `user` set status = 2 where user_id in
-    	<foreach collection="idArr" open="(" close=")" separator="," item="id">
-    		#{id}
-    	</foreach>
-    </update>
-    
-        <update id="update" parameterType="com.bwf.entity.User">
-    	update `user` set 
-    		username = #{username} , 
-    		password = #{password} , 
-    		nickname = #{nickname} ,
-    		leader_id = #{leaderId}
-    	where user_id = #{userId}
-    </update>
-    
-    <update id="updateWithPassword" parameterType="com.bwf.entity.User">
-    	update `user` set     		
-    		password = '456' , 
-    		nickname = #{nickname} ,
-    		leader_id = #{leader.userId} 
-    	where user_id = #{userId}
-    </update>
-    
-    <update id="updateWithoutPassword" parameterType="com.bwf.entity.User">
-    	update `user` set     	
-    		nickname = #{nickname} ,
-    	    leader_id = #{leader.userId} 
-    	where user_id = #{userId}
-    </update>
->>>>>>> bqr
-=======
 
 	<select id="getAllUsers" resultMap="baseUser">
 		select * from `user` where status=1
@@ -258,5 +172,4 @@
 		leader_id = #{leader.userId}
 		where user_id = #{userId}
 	</update>
->>>>>>> bqr
 </mapper>

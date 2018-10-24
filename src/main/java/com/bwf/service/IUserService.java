@@ -3,13 +3,6 @@ package com.bwf.service;
 import java.util.List;
 
 import com.bwf.entity.User;
-<<<<<<< HEAD
-
-public interface IUserService {
-	User getUser(User user);
-	
-	List<User> getAllUsers();
-=======
 
 public interface IUserService {
 
@@ -33,5 +26,4 @@ public interface IUserService {
 
 	Integer getAllUserCount();
 
->>>>>>> bqr
 }

@@ -5,16 +5,6 @@ import java.util.List;
 public class Message {
 	
 	private Integer messageId;
-<<<<<<< HEAD
-	private Integer senderId;
-	private String reciverId;
-	private String messageTitle;
-	private String messageContent;
-	private String messageTime;
-	private Integer status;
-	private String accessory;
-	
-=======
 
 	private String reciver;
 	private String messageTitle;
@@ -36,7 +26,6 @@ public class Message {
 	public void setUser(User user) {
 		this.user = user;
 	}
->>>>>>> bqr
 	private List<User> users;
 	
 	public List<User> getUsers() {
@@ -45,20 +34,6 @@ public class Message {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-<<<<<<< HEAD
-	public String getReciverId() {
-		return reciverId;
-	}
-	public void setReciverId(String reciverId) {
-		this.reciverId = reciverId;
-	}
-	public Integer getSenderId() {
-		return senderId;
-	}
-	public void setSenderId(Integer senderId) {
-		this.senderId = senderId;
-	}
-=======
 
 	public String getReciver() {
 		return reciver;
@@ -67,7 +42,6 @@ public class Message {
 		this.reciver = reciver;
 	}
 
->>>>>>> bqr
 	public Integer getMessageId() {
 		return messageId;
 	}
@@ -92,16 +66,7 @@ public class Message {
 	public void setMessageTime(String messageTime) {
 		this.messageTime = messageTime;
 	}
-<<<<<<< HEAD
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-=======
 
->>>>>>> bqr
 	public String getAccessory() {
 		return accessory;
 	}
